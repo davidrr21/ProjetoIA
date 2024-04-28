@@ -7,6 +7,7 @@
 # 00000 Nome2
 
 import sys
+from sys import stdin
 from search import (
     Problem,
     Node,
@@ -35,6 +36,10 @@ class PipeManiaState:
 class Board:
     """Representação interna de um tabuleiro de PipeMania."""
 
+    def __init__(self, dim, content):
+        self.dim = dim
+        self.content = content
+
     def get_value(self, row: int, col: int) -> str:
         """Devolve o valor na respetiva posição do tabuleiro."""
         # TODO
@@ -44,13 +49,18 @@ class Board:
         """Devolve os valores imediatamente acima e abaixo,
         respectivamente."""
         # TODO
-        pass
+        up = self.content[row - 2][col - 1] if row - 2 > 0 else None
+        down = self.content[row][col - 1] if row < self.dim else None
+        return up, down
 
     def adjacent_horizontal_values(self, row: int, col: int) -> (str, str):
         """Devolve os valores imediatamente à esquerda e à direita,
         respectivamente."""
         # TODO
-        pass
+        left = self.content[row - 1][col - 2] if col - 2 > 0 else None
+        right = self.content[row - 1][col] if col < self.dim else None
+        return left, right
+        
 
     @staticmethod
     def parse_instance():
@@ -63,8 +73,23 @@ class Board:
             > from sys import stdin
             > line = stdin.readline().split()
         """
-        # TODO
-        pass
+        # 
+        
+        content = []
+        dim = 0
+        for line in stdin:
+            dim += 1
+            words = line.split()
+            linha = []
+            for word in words:
+                linha.append(word)
+            content.append(linha)
+
+        for linha in content:
+            print(linha)
+        print(dim)
+
+        return Board(dim, content)
 
     # TODO: outros metodos da classe
 
@@ -111,3 +136,8 @@ if __name__ == "__main__":
     # Retirar a solução a partir do nó resultante,
     # Imprimir para o standard output no formato indicado.
     pass
+
+
+board = Board.parse_instance()
+print(board.adjacent_horizontal_values(5, 1))
+print(board.adjacent_vertical_values(5, 1))
