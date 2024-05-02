@@ -43,23 +43,23 @@ class Board:
     def get_value(self, row: int, col: int) -> str:
         """Devolve o valor na respetiva posição do tabuleiro."""
         # TODO
-        cell = self.content[row - 1][col -1]
+        cell = self.content[row][col]
         return cell
 
     def adjacent_vertical_values(self, row: int, col: int) -> (str, str):
         """Devolve os valores imediatamente acima e abaixo,
         respectivamente."""
         # TODO
-        up = self.content[row - 2][col - 1] if row - 2 > 0 else None
-        down = self.content[row][col - 1] if row < self.dim else None
+        up = self.content[row - 1][col] if row - 1 >= 0 else None
+        down = self.content[row + 1][col] if row + 1 < self.dim else None
         return up, down
 
     def adjacent_horizontal_values(self, row: int, col: int) -> (str, str):
         """Devolve os valores imediatamente à esquerda e à direita,
         respectivamente."""
         # TODO
-        left = self.content[row - 1][col - 2] if col - 2 > 0 else None
-        right = self.content[row - 1][col] if col < self.dim else None
+        left = self.content[row][col - 1] if col - 1 >= 0 else None
+        right = self.content[row][col + 1] if col + 1 < self.dim else None
         return left, right
         
 
@@ -140,7 +140,7 @@ if __name__ == "__main__":
 
 
 board = Board.parse_instance()
-print(board.get_value(3,3))
-print(board.adjacent_horizontal_values(3, 3))
-print(board.adjacent_vertical_values(3, 3))
+print(board.get_value(4, 0))
+print(board.adjacent_horizontal_values(4, 0))
+print(board.adjacent_vertical_values(4, 0))
 
