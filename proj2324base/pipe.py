@@ -2,9 +2,9 @@
 # Devem alterar as classes e funções neste ficheiro de acordo com as instruções do enunciado.
 # Além das funções e classes sugeridas, podem acrescentar outras que considerem pertinentes.
 
-# Grupo 00:
-# 00000 Nome1
-# 00000 Nome2
+# Grupo 64:
+# 106763 David Rodrigues
+# 105882 Duarte Gouveia
 
 import sys
 from sys import stdin
@@ -43,7 +43,8 @@ class Board:
     def get_value(self, row: int, col: int) -> str:
         """Devolve o valor na respetiva posição do tabuleiro."""
         # TODO
-        pass
+        cell = self.content[row - 1][col -1]
+        return cell
 
     def adjacent_vertical_values(self, row: int, col: int) -> (str, str):
         """Devolve os valores imediatamente acima e abaixo,
@@ -139,6 +140,7 @@ if __name__ == "__main__":
 
 
 board = Board.parse_instance()
+print(board.get_value(3,3))
 print(board.adjacent_horizontal_values(3, 3))
 print(board.adjacent_vertical_values(3, 3))
 
