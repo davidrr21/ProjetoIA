@@ -140,7 +140,11 @@ if __name__ == "__main__":
 
 
 board = Board.parse_instance()
-print(board.get_value(4, 0))
-print(board.adjacent_horizontal_values(4, 0))
-print(board.adjacent_vertical_values(4, 0))
+
+print(board.adjacent_vertical_values(0, 0))
+print(board.adjacent_horizontal_values(0, 0))
+
+print(board.adjacent_vertical_values(1, 1))
+print(board.adjacent_horizontal_values(1, 1))
+
 
