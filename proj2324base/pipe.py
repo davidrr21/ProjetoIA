@@ -99,7 +99,7 @@ class PipeMania(Problem):
     def __init__(self, initial_state: Board):
         """O construtor especifica o estado inicial."""
         # TODO
-        self.board = initial_state
+        self.initial_state = initial_state
         pass
 
     def actions(self, state: PipeManiaState):
@@ -107,13 +107,12 @@ class PipeMania(Problem):
         partir do estado passado como argumento."""
         # TODO
         possible_actions = []
-        rows, columns = self.board.dim, self.board.dim
+        rows, columns = self.initial_state.dim, self.initial_state.dim
         for i in range(rows):
             for j in range(columns):
                 for clockwise in [True, False]:
                     possible_actions.append((i, j, clockwise))
 
-        print(possible_actions)
         return possible_actions
 
     def result(self, state: PipeManiaState, action):
@@ -122,78 +121,79 @@ class PipeMania(Problem):
         das presentes na lista obtida pela execução de
         self.actions(state)."""
         # TODO
+
         r, c, clockwise = action
-        piece = state.board.content(r, c)
-        print(piece)
+        piece = state.board.get_value(r, c)
+
         if clockwise:
             if piece == "FC":
                 piece = "FD"
-            if piece == "FB":
+            elif piece == "FB":
                 piece = "FE"
-            if piece == "FE":
+            elif piece == "FE":
                 piece = "FC"
-            if piece == "FD":
+            elif piece == "FD":
                 piece = "FB"
 
-            if piece == "BC":
+            elif piece == "BC":
                 piece = "BD"   
-            if piece == "BB":
+            elif piece == "BB":
                 piece = "BE"
-            if piece == "BE":
+            elif piece == "BE":
                 piece = "BC"
-            if piece == "BD":
+            elif piece == "BD":
                 piece = "BB"
 
-            if piece == "VC":
+            elif piece == "VC":
                 piece = "VD"
-            if piece == "VB":
+            elif piece == "VB":
                 piece = "VE"
-            if piece == "VE":
+            elif piece == "VE":
                 piece = "VC"
-            if piece == "VD":
+            elif piece == "VD":
                 piece = "VB"
 
-            if piece == "LH":
+            elif piece == "LH":
                 piece = "LV"
-            if piece == "LV":
+            elif piece == "LV":
                 piece = "LH"
         else:
             if piece == "FC":
                 piece = "FE"
-            if piece == "FB":
+            elif piece == "FB":
                 piece = "FD"
-            if piece == "FE":
+            elif piece == "FE":
                 piece = "FB"
-            if piece == "FD":
+            elif piece == "FD":
                 piece = "FC"
 
-            if piece == "BC":
+            elif piece == "BC":
                 piece = "BE"   
-            if piece == "BB":
+            elif piece == "BB":
                 piece = "BD"
-            if piece == "BE":
+            elif piece == "BE":
                 piece = "BB"
-            if piece == "BD":
+            elif piece == "BD":
                 piece = "BC"
 
-            if piece == "VC":
+            elif piece == "VC":
                 piece = "VE"
-            if piece == "VB":
+            elif piece == "VB":
                 piece = "VD"
-            if piece == "VE":
+            elif piece == "VE":
                 piece = "VB"
-            if piece == "VD":
+            elif piece == "VD":
                 piece = "VC"
 
-            if piece == "LH":
+            elif piece == "LH":
                 piece = "LV"
-            if piece == "LV":
+            elif piece == "LV":
                 piece = "LH" 
-        print("piece:", piece)
-        new_board = state.board.content.copy()
-        new_board[r][c] = piece
-        new_board = Board(state.board.dim, new_board)
-        return PipeMania(PipeManiaState.board)
+
+        new_board = Board(state.board.dim, state.board.content)
+        new_board.content[r][c] = piece
+        
+        return PipeManiaState(new_board)
 
         
 
