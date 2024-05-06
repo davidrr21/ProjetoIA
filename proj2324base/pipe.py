@@ -96,16 +96,25 @@ class Board:
 
 
 class PipeMania(Problem):
-    def __init__(self, board: Board):
+    def __init__(self, initial_state: Board):
         """O construtor especifica o estado inicial."""
         # TODO
+        self.board = initial_state
         pass
 
     def actions(self, state: PipeManiaState):
         """Retorna uma lista de ações que podem ser executadas a
         partir do estado passado como argumento."""
         # TODO
-        pass
+        possible_actions = []
+        rows, columns = self.board.dim, self.board.dim
+        for i in range(rows):
+            for j in range(columns):
+                for clockwise in [True, False]:
+                    possible_actions.append((i, j, clockwise))
+
+        print(possible_actions)
+        return possible_actions
 
     def result(self, state: PipeManiaState, action):
         """Retorna o estado resultante de executar a 'action' sobre
@@ -113,7 +122,80 @@ class PipeMania(Problem):
         das presentes na lista obtida pela execução de
         self.actions(state)."""
         # TODO
-        pass
+        r, c, clockwise = action
+        piece = state.board.content(r, c)
+        print(piece)
+        if clockwise:
+            if piece == "FC":
+                piece = "FD"
+            if piece == "FB":
+                piece = "FE"
+            if piece == "FE":
+                piece = "FC"
+            if piece == "FD":
+                piece = "FB"
+
+            if piece == "BC":
+                piece = "BD"   
+            if piece == "BB":
+                piece = "BE"
+            if piece == "BE":
+                piece = "BC"
+            if piece == "BD":
+                piece = "BB"
+
+            if piece == "VC":
+                piece = "VD"
+            if piece == "VB":
+                piece = "VE"
+            if piece == "VE":
+                piece = "VC"
+            if piece == "VD":
+                piece = "VB"
+
+            if piece == "LH":
+                piece = "LV"
+            if piece == "LV":
+                piece = "LH"
+        else:
+            if piece == "FC":
+                piece = "FE"
+            if piece == "FB":
+                piece = "FD"
+            if piece == "FE":
+                piece = "FB"
+            if piece == "FD":
+                piece = "FC"
+
+            if piece == "BC":
+                piece = "BE"   
+            if piece == "BB":
+                piece = "BD"
+            if piece == "BE":
+                piece = "BB"
+            if piece == "BD":
+                piece = "BC"
+
+            if piece == "VC":
+                piece = "VE"
+            if piece == "VB":
+                piece = "VD"
+            if piece == "VE":
+                piece = "VB"
+            if piece == "VD":
+                piece = "VC"
+
+            if piece == "LH":
+                piece = "LV"
+            if piece == "LV":
+                piece = "LH" 
+        print("piece:", piece)
+        new_board = state.board.content.copy()
+        new_board[r][c] = piece
+        new_board = Board(state.board.dim, new_board)
+        return PipeMania(PipeManiaState.board)
+
+        
 
     def goal_test(self, state: PipeManiaState):
         """Retorna True se e só se o estado passado como argumento é
@@ -141,10 +223,14 @@ if __name__ == "__main__":
 
 board = Board.parse_instance()
 
-print(board.adjacent_vertical_values(0, 0))
-print(board.adjacent_horizontal_values(0, 0))
+problem = PipeMania(board)
 
-print(board.adjacent_vertical_values(1, 1))
-print(board.adjacent_horizontal_values(1, 1))
+initial_state = PipeManiaState(board)
+
+print(initial_state.board.get_value(2,2))
+
+result_state = problem.result(initial_state, (2, 2, True))
+
+print(result_state.board.get_value(2, 2))
 
 
