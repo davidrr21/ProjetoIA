@@ -32,6 +32,9 @@ class PipeManiaState:
 
     # TODO: outros metodos da classe
 
+    def dfs(self, board):
+        
+
 
 class Board:
     """Representação interna de um tabuleiro de PipeMania."""
@@ -122,78 +125,33 @@ class PipeMania(Problem):
         self.actions(state)."""
         # TODO
 
+        rotations = {
+            "FC": {"CW": "FD", "ACW": "FE"},
+            "FD": {"CW": "FB", "ACW": "FC"},
+            "FB": {"CW": "FE", "ACW": "FD"},
+            "FE": {"CW": "FC", "ACW": "FB"},
+            "BC": {"CW": "BD", "ACW": "BE"},
+            "BD": {"CW": "BB", "ACW": "BC"},
+            "BB": {"CW": "BE", "ACW": "BD"},
+            "BE": {"CW": "BC", "ACW": "BB"},
+            "VC": {"CW": "VD", "ACW": "VE"},
+            "VD": {"CW": "VB", "ACW": "VC"},
+            "VB": {"CW": "VE", "ACW": "VD"},
+            "VE": {"CW": "VC", "ACW": "VB"},
+            "LH": {"CW": "LV", "ACW": "LH"},
+            "LV": {"CW": "LH", "ACW": "LV"}
+        }
+
         r, c, clockwise = action
         piece = state.board.get_value(r, c)
 
-        if clockwise:
-            if piece == "FC":
-                piece = "FD"
-            elif piece == "FB":
-                piece = "FE"
-            elif piece == "FE":
-                piece = "FC"
-            elif piece == "FD":
-                piece = "FB"
-
-            elif piece == "BC":
-                piece = "BD"   
-            elif piece == "BB":
-                piece = "BE"
-            elif piece == "BE":
-                piece = "BC"
-            elif piece == "BD":
-                piece = "BB"
-
-            elif piece == "VC":
-                piece = "VD"
-            elif piece == "VB":
-                piece = "VE"
-            elif piece == "VE":
-                piece = "VC"
-            elif piece == "VD":
-                piece = "VB"
-
-            elif piece == "LH":
-                piece = "LV"
-            elif piece == "LV":
-                piece = "LH"
-        else:
-            if piece == "FC":
-                piece = "FE"
-            elif piece == "FB":
-                piece = "FD"
-            elif piece == "FE":
-                piece = "FB"
-            elif piece == "FD":
-                piece = "FC"
-
-            elif piece == "BC":
-                piece = "BE"   
-            elif piece == "BB":
-                piece = "BD"
-            elif piece == "BE":
-                piece = "BB"
-            elif piece == "BD":
-                piece = "BC"
-
-            elif piece == "VC":
-                piece = "VE"
-            elif piece == "VB":
-                piece = "VD"
-            elif piece == "VE":
-                piece = "VB"
-            elif piece == "VD":
-                piece = "VC"
-
-            elif piece == "LH":
-                piece = "LV"
-            elif piece == "LV":
-                piece = "LH" 
+        rotation = "CW" if clockwise else "ACW"
+        new_piece = rotations.get(piece, {}).get(rotation, piece)
 
         new_board = Board(state.board.dim, state.board.content)
-        new_board.content[r][c] = piece
-        
-        return PipeManiaState(new_board)
+        new_board.content[r][c] = new_piece
+
+        return PipeManiaState(new_board) 
 
         
 
@@ -202,7 +160,10 @@ class PipeMania(Problem):
         um estado objetivo. Deve verificar se todas as posições do tabuleiro
         estão preenchidas de acordo com as regras do problema."""
         # TODO
-        pass
+        if state.dfs:
+            return True
+        else:
+            return False
 
     def h(self, node: Node):
         """Função heuristica utilizada para a procura A*."""
