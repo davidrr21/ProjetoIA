@@ -357,16 +357,6 @@ class PipeManiaState:
                 else:
                     return False
 
-            for flag in visited:
-                print(flag)
-
-               
-            
-        #verificar que é só um tubo grande
-        for row in visited:
-            for element in row:
-                if not element:
-                    return False
                 
         return True
 
