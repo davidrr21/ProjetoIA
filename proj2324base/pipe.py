@@ -63,7 +63,6 @@ class PipeManiaState:
                     if(not visited[up[0]][up[1]]):
                         up_type = self.board.get_value(up[0], up[1])
                         if up_type in Up:
-                            print("up:", up)
                             stack.append(up)
                         else:
                             return False
@@ -71,12 +70,10 @@ class PipeManiaState:
                     return False
                     
             if (type == "FB"):
-                print("entrou FB")
                 if (down != (-1, -1)):
                     if(not visited[down[0]][down[1]]):
                         down_type = self.board.get_value(down[0], down[1])
                         if down_type in Down:
-                            print("down:", down)
                             stack.append(down)
                         else:
                             return False
@@ -88,7 +85,6 @@ class PipeManiaState:
                     if(not visited[left[0]][left[1]]):
                         left_type = self.board.get_value(left[0], left[1])
                         if left_type in Left:
-                            print("left:", left)
                             stack.append(left)
                         else:
                             return False
@@ -100,7 +96,6 @@ class PipeManiaState:
                     if(not visited[right[0]][right[1]]):
                         right_type = self.board.get_value(right[0], right[1])
                         if right_type in Right:
-                            print("right:", right)
                             stack.append(right)
                         else:
                             return False
@@ -113,7 +108,6 @@ class PipeManiaState:
                     if(not visited[left[0]][left[1]]):
                         left_type = self.board.get_value(left[0], left[1])
                         if left_type in Left:
-                            print("left:", left)
                             stack.append(left)
                         else:
                             return False
@@ -124,7 +118,6 @@ class PipeManiaState:
                     if(not visited[up[0]][up[1]]):
                         up_type = self.board.get_value(up[0], up[1])
                         if up_type in Up:
-                            print("up:", up)
                             stack.append(up)
                         else:
                             return False
@@ -135,7 +128,6 @@ class PipeManiaState:
                     if(not visited[right[0]][right[1]]):
                         right_type = self.board.get_value(right[0], right[1])
                         if right_type in Right:
-                            print("right:", right)
                             stack.append(right)
                         else:
                             return False
@@ -143,12 +135,10 @@ class PipeManiaState:
                     return False
                 
             if (type == "BB"):
-                print("entrou BB")
                 if (left != (-1, -1)):
                     if(not visited[left[0]][left[1]]):
                         left_type = self.board.get_value(left[0], left[1])
                         if left_type in Left:
-                            print("left:", left)
                             stack.append(left)
                         else:
                             return False
@@ -182,7 +172,6 @@ class PipeManiaState:
                     if(not visited[down[0]][down[1]]):
                         down_type = self.board.get_value(down[0], down[1])
                         if down_type in Down:
-                            print("down:", down)
                             stack.append(down)
                         else:
                             return False
@@ -193,7 +182,6 @@ class PipeManiaState:
                     if(not visited[left[0]][left[1]]):
                         left_type = self.board.get_value(left[0], left[1])
                         if left_type in Left:
-                            print("left:", left)
                             stack.append(left)
                         else:
                             return False
@@ -204,7 +192,6 @@ class PipeManiaState:
                     if(not visited[up[0]][up[1]]):
                         up_type = self.board.get_value(up[0], up[1])
                         if up_type in Up:
-                            print("up:", up)
                             stack.append(up)
                         else:
                             return False
@@ -212,13 +199,10 @@ class PipeManiaState:
                     return False
 
             if (type == "BD"):
-                print("entrou BD")
                 if (down != (-1, -1)):
                     if(not visited[down[0]][down[1]]):
                         down_type = self.board.get_value(down[0], down[1])
-                        print("down_type", down_type)
                         if down_type in Down:
-                            print("down:", down)
                             stack.append(down)
                         else:
                             return False
@@ -229,7 +213,6 @@ class PipeManiaState:
                     if(not visited[right[0]][right[1]]):
                         right_type = self.board.get_value(right[0], right[1])
                         if right_type in Right:
-                            print("right:", right)
                             stack.append(right)
                         else:
                             return False
@@ -240,7 +223,6 @@ class PipeManiaState:
                     if(not visited[up[0]][up[1]]):
                         up_type = self.board.get_value(up[0], up[1])
                         if up_type in Up:
-                            print("up:", up)
                             stack.append(up)
                         else:
                             return False
@@ -253,7 +235,6 @@ class PipeManiaState:
                     if(not visited[left[0]][left[1]]):
                         left_type = self.board.get_value(left[0], left[1])
                         if left_type in Left:
-                            print("left:", left)
                             stack.append(left)
                         else:
                             return False
@@ -264,7 +245,6 @@ class PipeManiaState:
                     if(not visited[up[0]][up[1]]):
                         up_type = self.board.get_value(up[0], up[1])
                         if up_type in Up:
-                            print("up:", up)
                             stack.append(up)
                         else:
                             return False
@@ -276,7 +256,6 @@ class PipeManiaState:
                     if(not visited[down[0]][down[1]]):
                         down_type = self.board.get_value(down[0], down[1])
                         if down_type in Down:
-                            print("down:", down)
                             stack.append(down)
                         else:
                             return False
@@ -287,7 +266,6 @@ class PipeManiaState:
                     if(not visited[right[0]][right[1]]):
                         right_type = self.board.get_value(right[0], right[1])
                         if right_type in Right:
-                            print("right:", right)
                             stack.append(right)
                         else:
                             return False
@@ -299,7 +277,6 @@ class PipeManiaState:
                     if(not visited[left[0]][left[1]]):
                         left_type = self.board.get_value(left[0], left[1])
                         if left_type in Left:
-                            print("left:", left)
                             stack.append(left)
                         else:
                             return False
@@ -310,7 +287,6 @@ class PipeManiaState:
                     if(not visited[down[0]][down[1]]):
                         down_type = self.board.get_value(down[0], down[1])
                         if down_type in Down:
-                            print("down:", down)
                             stack.append(down)
                         else:
                             return False
@@ -322,7 +298,6 @@ class PipeManiaState:
                     if(not visited[up[0]][up[1]]):
                         up_type = self.board.get_value(up[0], up[1])
                         if up_type in Up:
-                            print("up:", up)
                             stack.append(up)
                         else:
                             return False
@@ -333,7 +308,6 @@ class PipeManiaState:
                     if(not visited[right[0]][right[1]]):
                         right_type = self.board.get_value(right[0], right[1])
                         if right_type in Right:
-                            print("right:", right)
                             stack.append(right)
                         else:
                             return False
@@ -346,7 +320,6 @@ class PipeManiaState:
                     if(not visited[left[0]][left[1]]):
                         left_type = self.board.get_value(left[0], left[1])
                         if left_type in Left:
-                            print("left:", left)
                             stack.append(left)
                         else:
                             return False
@@ -357,7 +330,6 @@ class PipeManiaState:
                     if(not visited[right[0]][right[1]]):
                         right_type = self.board.get_value(right[0], right[1])
                         if right_type in Right:
-                            print("right:", right)
                             stack.append(right)
                         else:
                             return False
@@ -369,7 +341,6 @@ class PipeManiaState:
                     if(not visited[up[0]][up[1]]):
                         up_type = self.board.get_value(up[0], up[1])
                         if up_type in Up:
-                            print("up:", up)
                             stack.append(up)
                         else:
                             return False
@@ -380,7 +351,6 @@ class PipeManiaState:
                     if(not visited[down[0]][down[1]]):
                         down_type = self.board.get_value(down[0], down[1])
                         if down_type in Down:
-                            print("down:", down)
                             stack.append(down)
                         else:
                             return False
