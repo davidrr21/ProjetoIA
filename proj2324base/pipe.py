@@ -368,6 +368,7 @@ class Board:
         self.dim = dim
         self.content = content
 
+
     def get_value(self, row: int, col: int) -> str:
         """Devolve o valor na respetiva posição do tabuleiro."""
         # TODO
@@ -416,22 +417,26 @@ class Board:
 
         return Board(dim, content)
 
+    def print(self):
+        result = "\n".join(" ".join(row) for row in self.content)
+        return result
+    
     # TODO: outros metodos da classe
 
 
 class PipeMania(Problem):
-    def __init__(self, initial_state: Board):
+    def __init__(self, board: Board):
         """O construtor especifica o estado inicial."""
         # TODO
-        self.initial_state = initial_state
-        pass
+        self.initial = PipeManiaState(board)
+        
 
     def actions(self, state: PipeManiaState):
         """Retorna uma lista de ações que podem ser executadas a
         partir do estado passado como argumento."""
         # TODO
         possible_actions = []
-        rows, columns = self.initial_state.dim, self.initial_state.dim
+        rows, columns = self.initial.dim, self.initial.dim
         for i in range(rows):
             for j in range(columns):
                 for clockwise in [True, False]:
@@ -439,7 +444,7 @@ class PipeMania(Problem):
 
         return possible_actions
 
-    def result(self, state: PipeManiaState, action):#isto está mal
+    def result(self, state: PipeManiaState, action):
         """Retorna o estado resultante de executar a 'action' sobre
         'state' passado como argumento. A ação a executar deve ser uma
         das presentes na lista obtida pela execução de
@@ -481,10 +486,11 @@ class PipeMania(Problem):
         um estado objetivo. Deve verificar se todas as posições do tabuleiro
         estão preenchidas de acordo com as regras do problema."""
         # TODO
-        if state.dfs():
-            return True
-        else:
-            return False
+        #if state.dfs():
+        #    return True
+        #else:
+        #    return False
+        return state.dfs()
 
     def h(self, node: Node):
         """Função heuristica utilizada para a procura A*."""
@@ -503,34 +509,18 @@ if __name__ == "__main__":
     pass
 
 
-# Ler grelha do figura 1a:
 board = Board.parse_instance()
-# Criar uma instância de PipeMania:
+
 problem = PipeMania(board)
-# Criar um estado com a configuração inicial:
-s0 = PipeManiaState(board)
-# Aplicar as ações que resolvem a instância
-s1 = problem.result(s0, (0, 1, True))
-s2 = problem.result(s1, (0, 1, True))
-s3 = problem.result(s2, (0, 2, True))
-s4 = problem.result(s3, (0, 2, True))
-s5 = problem.result(s4, (1, 0, True))
+#goal_node = depth_first_tree_search(problem)
+initial_state = PipeManiaState(board)
+print(problem.actions(initial_state))
+#print("Is goal?", problem.goal_test(goal_node.state))
+#print("Solution:\n", goal_node.state.board.print(), sep="")
 
-s6 = problem.result(s5, (1, 1, True))
-s7 = problem.result(s6, (2, 0, False)) # anti-clockwise (exemplo de uso)
-s8 = problem.result(s7, (2, 0, False)) # anti-clockwise (exemplo de uso)
-s9 = problem.result(s8, (2, 1, True))
-s10 = problem.result(s9, (2, 1, True))
-s11 = problem.result(s10, (2, 2, True))
-# Verificar se foi atingida a solução
-print(s5.board.content)
-print("Is goal?", problem.goal_test(s5))
-print("Is goal?", problem.goal_test(s11))
 
-#S5
-#FB VB VE
-#BD BB LV
-#FB FB FE
+
+
 
 
 

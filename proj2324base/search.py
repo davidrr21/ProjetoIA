@@ -96,6 +96,7 @@ class Node:
         return [self.child_node(problem, action)
                 for action in problem.actions(self.state)]
 
+
     def child_node(self, problem, action):
         """[Figure 3.10]"""
         next_state = problem.result(self.state, action)
