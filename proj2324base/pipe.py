@@ -32,8 +32,373 @@ class PipeManiaState:
 
     # TODO: outros metodos da classe
 
-    def dfs(self, board):
-        
+    def dfs(self):
+        visited = [[False for _ in range(self.board.dim)] for _ in range(self.board.dim)]
+        stack = [(0, 0)]  # Começa na posição (0, 0)
+
+        Left = ["FD", "BC", "BB", "BD", "VB", "VD", "LH"]
+        Right = ["FE", "BC", "BB", "BE", "VC", "VE", "LH"]
+        Down = ["FC", "BC", "BE", "BD", "VC", "VD", "LV"]
+        Up = ["FB", "BB", "BE", "BD", "VB", "VE", "LV"]
+
+        while stack:
+            row, col = stack.pop()
+            visited[row][col] = True
+
+            up = down = left = right = (-1, -1)
+
+            if(row - 1 >= 0):
+                up = (row - 1, col)
+            if(row + 1 < self.board.dim):
+                down = (row + 1, col)
+            if(col - 1 >= 0):
+                left = (row, col - 1)
+            if(col + 1 < self.board.dim):
+                right = (row, col + 1)
+
+            type = self.board.get_value(row, col)
+            #tipos de peças
+            if (type == "FC"):
+                if (up != (-1, -1)):
+                    if(not visited[up[0]][up[1]]):
+                        up_type = self.board.get_value(up[0], up[1])
+                        if up_type in Up:
+                            print("up:", up)
+                            stack.append(up)
+                        else:
+                            return False
+                else:
+                    return False
+                    
+            if (type == "FB"):
+                print("entrou FB")
+                if (down != (-1, -1)):
+                    if(not visited[down[0]][down[1]]):
+                        down_type = self.board.get_value(down[0], down[1])
+                        if down_type in Down:
+                            print("down:", down)
+                            stack.append(down)
+                        else:
+                            return False
+                else:
+                    return False
+                    
+            if (type == "FE"):
+                if (left != (-1, -1)):
+                    if(not visited[left[0]][left[1]]):
+                        left_type = self.board.get_value(left[0], left[1])
+                        if left_type in Left:
+                            print("left:", left)
+                            stack.append(left)
+                        else:
+                            return False
+                else:
+                    return False
+                    
+            if (type == "FD"):
+                if (right != (-1, -1)):
+                    if(not visited[right[0]][right[1]]):
+                        right_type = self.board.get_value(right[0], right[1])
+                        if right_type in Right:
+                            print("right:", right)
+                            stack.append(right)
+                        else:
+                            return False
+                else:
+                    return False
+            
+
+            if (type == "BC"):
+                if (left != (-1, -1)):
+                    if(not visited[left[0]][left[1]]):
+                        left_type = self.board.get_value(left[0], left[1])
+                        if left_type in Left:
+                            print("left:", left)
+                            stack.append(left)
+                        else:
+                            return False
+                else:
+                    return False
+                
+                if (up != (-1, -1)):
+                    if(not visited[up[0]][up[1]]):
+                        up_type = self.board.get_value(up[0], up[1])
+                        if up_type in Up:
+                            print("up:", up)
+                            stack.append(up)
+                        else:
+                            return False
+                else:
+                    return False
+                
+                if (right != (-1, -1)):
+                    if(not visited[right[0]][right[1]]):
+                        right_type = self.board.get_value(right[0], right[1])
+                        if right_type in Right:
+                            print("right:", right)
+                            stack.append(right)
+                        else:
+                            return False
+                else:
+                    return False
+                
+            if (type == "BB"):
+                print("entrou BB")
+                if (left != (-1, -1)):
+                    if(not visited[left[0]][left[1]]):
+                        left_type = self.board.get_value(left[0], left[1])
+                        if left_type in Left:
+                            print("left:", left)
+                            stack.append(left)
+                        else:
+                            return False
+                else:
+                    return False
+                
+                if (down != (-1, -1)):
+                    if(not visited[down[0]][down[1]]):
+                        down_type = self.board.get_value(down[0], down[1])
+                        if down_type in Down:
+                            print("down:", down)
+                            stack.append(down)
+                        else:
+                            return False
+                else:
+                    return False
+                
+                if (right != (-1, -1)):
+                    if(not visited[right[0]][right[1]]):
+                        right_type = self.board.get_value(right[0], right[1])
+                        if right_type in Right:
+                            print("right:", right)
+                            stack.append(right)
+                        else:
+                            return False
+                else:
+                    return False
+
+            if (type == "BE"):
+                if (down != (-1, -1)):
+                    if(not visited[down[0]][down[1]]):
+                        down_type = self.board.get_value(down[0], down[1])
+                        if down_type in Down:
+                            print("down:", down)
+                            stack.append(down)
+                        else:
+                            return False
+                else:
+                    return False
+
+                if (left != (-1, -1)):
+                    if(not visited[left[0]][left[1]]):
+                        left_type = self.board.get_value(left[0], left[1])
+                        if left_type in Left:
+                            print("left:", left)
+                            stack.append(left)
+                        else:
+                            return False
+                else:
+                    return False
+                
+                if (up != (-1, -1)):
+                    if(not visited[up[0]][up[1]]):
+                        up_type = self.board.get_value(up[0], up[1])
+                        if up_type in Up:
+                            print("up:", up)
+                            stack.append(up)
+                        else:
+                            return False
+                else:
+                    return False
+
+            if (type == "BD"):
+                print("entrou BD")
+                if (down != (-1, -1)):
+                    if(not visited[down[0]][down[1]]):
+                        down_type = self.board.get_value(down[0], down[1])
+                        print("down_type", down_type)
+                        if down_type in Down:
+                            print("down:", down)
+                            stack.append(down)
+                        else:
+                            return False
+                else:
+                    return False
+
+                if (right != (-1, -1)):
+                    if(not visited[right[0]][right[1]]):
+                        right_type = self.board.get_value(right[0], right[1])
+                        if right_type in Right:
+                            print("right:", right)
+                            stack.append(right)
+                        else:
+                            return False
+                else:
+                    return False
+                
+                if (up != (-1, -1)):
+                    if(not visited[up[0]][up[1]]):
+                        up_type = self.board.get_value(up[0], up[1])
+                        if up_type in Up:
+                            print("up:", up)
+                            stack.append(up)
+                        else:
+                            return False
+                else:
+                    return False
+
+
+            if (type == "VC"):
+                if (left != (-1, -1)):
+                    if(not visited[left[0]][left[1]]):
+                        left_type = self.board.get_value(left[0], left[1])
+                        if left_type in Left:
+                            print("left:", left)
+                            stack.append(left)
+                        else:
+                            return False
+                else:
+                    return False
+                    
+                if (up != (-1, -1)):
+                    if(not visited[up[0]][up[1]]):
+                        up_type = self.board.get_value(up[0], up[1])
+                        if up_type in Up:
+                            print("up:", up)
+                            stack.append(up)
+                        else:
+                            return False
+                else:
+                    return False
+            
+            if (type == "VB"):
+                if (down != (-1, -1)):
+                    if(not visited[down[0]][down[1]]):
+                        down_type = self.board.get_value(down[0], down[1])
+                        if down_type in Down:
+                            print("down:", down)
+                            stack.append(down)
+                        else:
+                            return False
+                else:
+                    return False
+                    
+                if (right != (-1, -1)):
+                    if(not visited[right[0]][right[1]]):
+                        right_type = self.board.get_value(right[0], right[1])
+                        if right_type in Right:
+                            print("right:", right)
+                            stack.append(right)
+                        else:
+                            return False
+                else:
+                    return False
+
+            if (type == "VE"):
+                if (left != (-1, -1)):
+                    if(not visited[left[0]][left[1]]):
+                        left_type = self.board.get_value(left[0], left[1])
+                        if left_type in Left:
+                            print("left:", left)
+                            stack.append(left)
+                        else:
+                            return False
+                else:
+                    return False
+                    
+                if (down != (-1, -1)):
+                    if(not visited[down[0]][down[1]]):
+                        down_type = self.board.get_value(down[0], down[1])
+                        if down_type in Down:
+                            print("down:", down)
+                            stack.append(down)
+                        else:
+                            return False
+                else:
+                    return False
+
+            if (type == "VD"):
+                if (up != (-1, -1)):
+                    if(not visited[up[0]][up[1]]):
+                        up_type = self.board.get_value(up[0], up[1])
+                        if up_type in Up:
+                            print("up:", up)
+                            stack.append(up)
+                        else:
+                            return False
+                else:
+                    return False
+                    
+                if (right != (-1, -1)):
+                    if(not visited[right[0]][right[1]]):
+                        right_type = self.board.get_value(right[0], right[1])
+                        if right_type in Right:
+                            print("right:", right)
+                            stack.append(right)
+                        else:
+                            return False
+                else:
+                    return False
+
+
+            if (type == "LH"):
+                if (left != (-1, -1)):
+                    if(not visited[left[0]][left[1]]):
+                        left_type = self.board.get_value(left[0], left[1])
+                        if left_type in Left:
+                            print("left:", left)
+                            stack.append(left)
+                        else:
+                            return False
+                else:
+                    return False
+
+                if (right != (-1, -1)):
+                    if(not visited[right[0]][right[1]]):
+                        right_type = self.board.get_value(right[0], right[1])
+                        if right_type in Right:
+                            print("right:", right)
+                            stack.append(right)
+                        else:
+                            return False
+                else:
+                    return False
+                    
+            if (type == "LV"):
+                if (up != (-1, -1)):
+                    if(not visited[up[0]][up[1]]):
+                        up_type = self.board.get_value(up[0], up[1])
+                        if up_type in Up:
+                            print("up:", up)
+                            stack.append(up)
+                        else:
+                            return False
+                else:
+                    return False
+                
+                if (down != (-1, -1)):
+                    if(not visited[down[0]][down[1]]):
+                        down_type = self.board.get_value(down[0], down[1])
+                        if down_type in Down:
+                            print("down:", down)
+                            stack.append(down)
+                        else:
+                            return False
+                else:
+                    return False
+
+            for flag in visited:
+                print(flag)
+
+               
+            
+        #verificar que é só um tubo grande
+        for row in visited:
+            for element in row:
+                if not element:
+                    return False
+                
+        return True
 
 
 class Board:
@@ -89,10 +454,6 @@ class Board:
                 linha.append(word)
             content.append(linha)
 
-        for linha in content:
-            print(linha)
-        print(dim)
-
         return Board(dim, content)
 
     # TODO: outros metodos da classe
@@ -118,7 +479,7 @@ class PipeMania(Problem):
 
         return possible_actions
 
-    def result(self, state: PipeManiaState, action):
+    def result(self, state: PipeManiaState, action):#isto está mal
         """Retorna o estado resultante de executar a 'action' sobre
         'state' passado como argumento. A ação a executar deve ser uma
         das presentes na lista obtida pela execução de
@@ -148,9 +509,9 @@ class PipeMania(Problem):
         rotation = "CW" if clockwise else "ACW"
         new_piece = rotations.get(piece, {}).get(rotation, piece)
 
-        new_board = Board(state.board.dim, state.board.content)
+        new_board = Board(state.board.dim, [row[:] for row in state.board.content])        
         new_board.content[r][c] = new_piece
-
+        
         return PipeManiaState(new_board) 
 
         
@@ -160,7 +521,7 @@ class PipeMania(Problem):
         um estado objetivo. Deve verificar se todas as posições do tabuleiro
         estão preenchidas de acordo com as regras do problema."""
         # TODO
-        if state.dfs:
+        if state.dfs():
             return True
         else:
             return False
@@ -182,16 +543,34 @@ if __name__ == "__main__":
     pass
 
 
+# Ler grelha do figura 1a:
 board = Board.parse_instance()
-
+# Criar uma instância de PipeMania:
 problem = PipeMania(board)
+# Criar um estado com a configuração inicial:
+s0 = PipeManiaState(board)
+# Aplicar as ações que resolvem a instância
+s1 = problem.result(s0, (0, 1, True))
+s2 = problem.result(s1, (0, 1, True))
+s3 = problem.result(s2, (0, 2, True))
+s4 = problem.result(s3, (0, 2, True))
+s5 = problem.result(s4, (1, 0, True))
 
-initial_state = PipeManiaState(board)
+s6 = problem.result(s5, (1, 1, True))
+s7 = problem.result(s6, (2, 0, False)) # anti-clockwise (exemplo de uso)
+s8 = problem.result(s7, (2, 0, False)) # anti-clockwise (exemplo de uso)
+s9 = problem.result(s8, (2, 1, True))
+s10 = problem.result(s9, (2, 1, True))
+s11 = problem.result(s10, (2, 2, True))
+# Verificar se foi atingida a solução
+print(s5.board.content)
+print("Is goal?", problem.goal_test(s5))
+print("Is goal?", problem.goal_test(s11))
 
-print(initial_state.board.get_value(2,2))
+#S5
+#FB VB VE
+#BD BB LV
+#FB FB FE
 
-result_state = problem.result(initial_state, (2, 2, True))
-
-print(result_state.board.get_value(2, 2))
 
 
