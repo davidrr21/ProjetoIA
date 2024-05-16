@@ -434,15 +434,25 @@ class PipeMania(Problem):
     def actions(self, state: PipeManiaState):
         """Retorna uma lista de ações que podem ser executadas a
         partir do estado passado como argumento."""
-        # TODO
-        possible_actions = []
-        rows, columns = self.initial.dim, self.initial.dim
-        for i in range(rows):
-            for j in range(columns):
-                for clockwise in [True, False]:
-                    possible_actions.append((i, j, clockwise))
+        #Listar em tuplos todas as ações possiveis a realizar num tabuleiro de dimensão nxn tendo em conta a posição das peças
+        actions = []
+        for r in range(state.board.dim):
+            for c in range(state.board.dim):
+                piece = state.board.get_value(r, c)
+                if piece in ["FC", "FD", "FB", "FE"]:
+                    actions.append((r, c, True))
+                    actions.append((r, c, False))
+                elif piece in ["BC", "BD", "BB", "BE"]:
+                    actions.append((r, c, True))
+                    actions.append((r, c, False))
+                elif piece in ["VC", "VD", "VB", "VE"]:
+                    actions.append((r, c, True))
+                    actions.append((r, c, False))
+                elif piece in ["LH", "LV"]:
+                    actions.append((r, c, True))
+        
+        return actions
 
-        return possible_actions
 
     def result(self, state: PipeManiaState, action):
         """Retorna o estado resultante de executar a 'action' sobre
@@ -485,12 +495,12 @@ class PipeMania(Problem):
         """Retorna True se e só se o estado passado como argumento é
         um estado objetivo. Deve verificar se todas as posições do tabuleiro
         estão preenchidas de acordo com as regras do problema."""
-        # TODO
-        #if state.dfs():
-        #    return True
-        #else:
-        #    return False
-        return state.dfs()
+        # TODO ver se 0,0 liga a 0,1 e a 1,0 e fazer dfs normal metendo numa pilha
+        if state.dfs():
+           return True
+        else:
+            return False
+
 
     def h(self, node: Node):
         """Função heuristica utilizada para a procura A*."""
@@ -512,11 +522,11 @@ if __name__ == "__main__":
 board = Board.parse_instance()
 
 problem = PipeMania(board)
-#goal_node = depth_first_tree_search(problem)
+goal_node = depth_first_tree_search(problem)
 initial_state = PipeManiaState(board)
-print(problem.actions(initial_state))
-#print("Is goal?", problem.goal_test(goal_node.state))
-#print("Solution:\n", goal_node.state.board.print(), sep="")
+#print(problem.actions(initial_state))
+print("Is goal?", problem.goal_test(goal_node.state))
+print("Solution:\n", goal_node.state.board.print(), sep="")
 
 
 
