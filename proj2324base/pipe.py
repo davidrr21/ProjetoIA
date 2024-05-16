@@ -450,8 +450,6 @@ class PipeMania(Problem):
                     actions.append((r, c, False))
                 elif piece in ["LH", "LV"]:
                     actions.append((r, c, True))
-                #dddddd
-        
         return actions
 
 
@@ -523,12 +521,11 @@ if __name__ == "__main__":
 board = Board.parse_instance()
 
 problem = PipeMania(board)
-goal_node = depth_first_tree_search(problem)
-initial_state = PipeManiaState(board)
+goal_node = breadth_first_tree_search(problem)
+#initial_state = PipeManiaState(board)
 #print(problem.actions(initial_state))
 print("Is goal?", problem.goal_test(goal_node.state))
 print("Solution:\n", goal_node.state.board.print(), sep="")
-
 
 
 
