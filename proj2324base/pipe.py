@@ -450,6 +450,7 @@ class PipeMania(Problem):
                     actions.append((r, c, False))
                 elif piece in ["LH", "LV"]:
                     actions.append((r, c, True))
+                #dddddd
         
         return actions
 
