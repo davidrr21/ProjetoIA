@@ -18,6 +18,9 @@ from search import (
     recursive_best_first_search,
 )
 
+locked_pieces = None
+it_rows = 0
+it_cols = 0
 
 class PipeManiaState:
     state_id = 0
@@ -149,7 +152,6 @@ class PipeManiaState:
                     if(not visited[down[0]][down[1]]):
                         down_type = self.board.get_value(down[0], down[1])
                         if down_type in Down:
-                            print("down:", down)
                             stack.append(down)
                         else:
                             return False
@@ -160,7 +162,6 @@ class PipeManiaState:
                     if(not visited[right[0]][right[1]]):
                         right_type = self.board.get_value(right[0], right[1])
                         if right_type in Right:
-                            print("right:", right)
                             stack.append(right)
                         else:
                             return False
@@ -415,6 +416,8 @@ class Board:
                 linha.append(word)
             content.append(linha)
 
+        global locked_pieces
+        locked_pieces = [["unlock"] * dim for _ in range(dim)]
         return Board(dim, content)
 
     def print(self):
@@ -435,21 +438,72 @@ class PipeMania(Problem):
         """Retorna uma lista de ações que podem ser executadas a
         partir do estado passado como argumento."""
         #Listar em tuplos todas as ações possiveis a realizar num tabuleiro de dimensão nxn tendo em conta a posição das peças
+        global locked_pieces, it_rows, it_cols
         actions = []
-        for r in range(state.board.dim):
-            for c in range(state.board.dim):
-                piece = state.board.get_value(r, c)
-                if piece in ["FC", "FD", "FB", "FE"]:
-                    actions.append((r, c, True))
-                    actions.append((r, c, False))
-                elif piece in ["BC", "BD", "BB", "BE"]:
-                    actions.append((r, c, True))
-                    actions.append((r, c, False))
-                elif piece in ["VC", "VD", "VB", "VE"]:
-                    actions.append((r, c, True))
-                    actions.append((r, c, False))
-                elif piece in ["LH", "LV"]:
-                    actions.append((r, c, True))
+        dim = state.board.dim
+
+        if (it_cols == dim):
+            it_rows += 1
+            it_cols = 0
+        
+        if(it_rows == dim):
+            it_rows = 0
+
+        r = it_rows
+        c = it_cols
+        
+       
+        piece = state.board.get_value(r, c)
+        if piece in ["FC", "FD", "FB", "FE"]:
+            if(piece == "FB" and (r == 0)):
+                locked_pieces[r][c] = "lock"
+            elif(piece == "FC" and (r == dim - 1)):
+                locked_pieces[r][c] = "lock"
+            elif(piece == "FD" and (c == 0)):
+                locked_pieces[r][c] = "lock"
+            elif(piece == "FE" and (c == dim - 1)):
+                locked_pieces[r][c] = "lock"
+            else:
+                actions.append((r, c, True))
+                actions.append((r, c, False))
+        elif piece in ["BC", "BD", "BB", "BE"]:
+            if(piece == "BB" and (r == 0)):
+                locked_pieces[r][c] = "lock"
+            elif(piece == "BC" and (r == dim - 1)):
+                locked_pieces[r][c] = "lock"
+            elif(piece == "BD" and (c == 0)):
+                locked_pieces[r][c] = "lock"
+            elif(piece == "BE" and (c == dim - 1)):
+                locked_pieces[r][c] = "lock"
+            else:
+                actions.append((r, c, True))
+                actions.append((r, c, False))
+        elif piece in ["VC", "VD", "VB", "VE"]:
+            if(piece == "VB" and (r == 0 and c == 0)):
+                print("trancou1")
+                locked_pieces[r][c] = "lock"
+            elif(piece == "VE" and (r == 0 and c == dim - 1)):
+                print("trancou2")
+                locked_pieces[r][c] = "lock"
+            elif(piece == "VC" and (r == dim - 1 and c == dim - 1)):
+                print("trancou3")
+                locked_pieces[r][c] = "lock"
+            elif(piece == "VD" and (r == dim - 1 and c == 0)):
+                print("trancou4")
+                locked_pieces[r][c] = "lock"
+            else:
+                actions.append((r, c, True))
+                actions.append((r, c, False))
+        elif piece in ["LH", "LV"]:
+            if(piece == "LH" and (r == 0 or r == dim - 1)):
+                locked_pieces[r][c] = "lock"
+            elif(piece == "LV" and (c == 0 or c == dim -1)):
+                locked_pieces[r][c] = "lock"
+            else:
+                actions.append((r, c, True))
+
+        it_cols += 1
+        print("actions: ", actions)
         return actions
 
 
@@ -529,6 +583,8 @@ print("Solution:\n", goal_node.state.board.print(), sep="")
 
 
 
-
+#FB VC VD
+#BC BB LV
+#FB FB FE
 
 
