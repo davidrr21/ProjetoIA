@@ -19,14 +19,14 @@ from search import (
 )
 
 locked_pieces = None
-it_rows = 0
-it_cols = 0
+profundidade = 0
 
 class PipeManiaState:
     state_id = 0
 
-    def __init__(self, board):
+    def __init__(self, board, prof):
         self.board = board
+        self.prof = prof
         self.id = PipeManiaState.state_id
         PipeManiaState.state_id += 1
 
@@ -357,6 +357,12 @@ class PipeManiaState:
                             return False
                 else:
                     return False
+        
+        
+        for row in visited:
+            for cell in row:
+                if not cell:
+                    return False
 
                 
         return True
@@ -431,79 +437,43 @@ class PipeMania(Problem):
     def __init__(self, board: Board):
         """O construtor especifica o estado inicial."""
         # TODO
-        self.initial = PipeManiaState(board)
+        self.initial = PipeManiaState(board, profundidade)
         
 
     def actions(self, state: PipeManiaState):
         """Retorna uma lista de ações que podem ser executadas a
         partir do estado passado como argumento."""
         #Listar em tuplos todas as ações possiveis a realizar num tabuleiro de dimensão nxn tendo em conta a posição das peças
-        global locked_pieces, it_rows, it_cols
+        global locked_pieces
         actions = []
         dim = state.board.dim
+        flag = False
 
-        if (it_cols == dim):
-            it_rows += 1
-            it_cols = 0
-        
-        if(it_rows == dim):
-            it_rows = 0
+        if(state.prof < (dim * dim)):
+            r = state.prof // dim
+            c = state.prof % dim
+               
+            piece = state.board.get_value(r, c)
+            if piece in ["FC", "FD", "FB", "FE"]:
+                actions.append((r, c, "init"))
+                actions.append((r, c, "CW"))
+                actions.append((r, c, "ACW"))
+                actions.append((r, c, "HCW"))
+            elif piece in ["BC", "BD", "BB", "BE"]:
+                actions.append((r, c, "init"))
+                actions.append((r, c, "CW"))
+                actions.append((r, c, "ACW"))
+                actions.append((r, c, "HCW"))
+            elif piece in ["VC", "VD", "VB", "VE"]:
+                actions.append((r, c, "init"))
+                actions.append((r, c, "CW"))
+                actions.append((r, c, "ACW"))
+                actions.append((r, c, "HCW"))
+            elif piece in ["LH", "LV"]:
+                actions.append((r, c, "CW"))
+                actions.append((r, c, "HCW"))
 
-        r = it_rows
-        c = it_cols
-        
-       
-        piece = state.board.get_value(r, c)
-        if piece in ["FC", "FD", "FB", "FE"]:
-            if(piece == "FB" and (r == 0)):
-                locked_pieces[r][c] = "lock"
-            elif(piece == "FC" and (r == dim - 1)):
-                locked_pieces[r][c] = "lock"
-            elif(piece == "FD" and (c == 0)):
-                locked_pieces[r][c] = "lock"
-            elif(piece == "FE" and (c == dim - 1)):
-                locked_pieces[r][c] = "lock"
-            else:
-                actions.append((r, c, True))
-                actions.append((r, c, False))
-        elif piece in ["BC", "BD", "BB", "BE"]:
-            if(piece == "BB" and (r == 0)):
-                locked_pieces[r][c] = "lock"
-            elif(piece == "BC" and (r == dim - 1)):
-                locked_pieces[r][c] = "lock"
-            elif(piece == "BD" and (c == 0)):
-                locked_pieces[r][c] = "lock"
-            elif(piece == "BE" and (c == dim - 1)):
-                locked_pieces[r][c] = "lock"
-            else:
-                actions.append((r, c, True))
-                actions.append((r, c, False))
-        elif piece in ["VC", "VD", "VB", "VE"]:
-            if(piece == "VB" and (r == 0 and c == 0)):
-                print("trancou1")
-                locked_pieces[r][c] = "lock"
-            elif(piece == "VE" and (r == 0 and c == dim - 1)):
-                print("trancou2")
-                locked_pieces[r][c] = "lock"
-            elif(piece == "VC" and (r == dim - 1 and c == dim - 1)):
-                print("trancou3")
-                locked_pieces[r][c] = "lock"
-            elif(piece == "VD" and (r == dim - 1 and c == 0)):
-                print("trancou4")
-                locked_pieces[r][c] = "lock"
-            else:
-                actions.append((r, c, True))
-                actions.append((r, c, False))
-        elif piece in ["LH", "LV"]:
-            if(piece == "LH" and (r == 0 or r == dim - 1)):
-                locked_pieces[r][c] = "lock"
-            elif(piece == "LV" and (c == 0 or c == dim -1)):
-                locked_pieces[r][c] = "lock"
-            else:
-                actions.append((r, c, True))
 
-        it_cols += 1
-        print("actions: ", actions)
         return actions
 
 
@@ -515,33 +485,41 @@ class PipeMania(Problem):
         # TODO
 
         rotations = {
-            "FC": {"CW": "FD", "ACW": "FE"},
-            "FD": {"CW": "FB", "ACW": "FC"},
-            "FB": {"CW": "FE", "ACW": "FD"},
-            "FE": {"CW": "FC", "ACW": "FB"},
-            "BC": {"CW": "BD", "ACW": "BE"},
-            "BD": {"CW": "BB", "ACW": "BC"},
-            "BB": {"CW": "BE", "ACW": "BD"},
-            "BE": {"CW": "BC", "ACW": "BB"},
-            "VC": {"CW": "VD", "ACW": "VE"},
-            "VD": {"CW": "VB", "ACW": "VC"},
-            "VB": {"CW": "VE", "ACW": "VD"},
-            "VE": {"CW": "VC", "ACW": "VB"},
+            "FC": {"CW": "FD", "ACW": "FE", "HCW": "FB"},
+            "FD": {"CW": "FB", "ACW": "FC", "HCW": "FE"},
+            "FB": {"CW": "FE", "ACW": "FD", "HCW": "FC"},
+            "FE": {"CW": "FC", "ACW": "FB", "HCW": "FD"},
+            "BC": {"CW": "BD", "ACW": "BE", "HCW": "BB"},
+            "BD": {"CW": "BB", "ACW": "BC", "HCW": "BE"},
+            "BB": {"CW": "BE", "ACW": "BD", "HCW": "BC"},
+            "BE": {"CW": "BC", "ACW": "BB", "HCW": "BD"},
+            "VC": {"CW": "VD", "ACW": "VE", "HCW": "VB"},
+            "VD": {"CW": "VB", "ACW": "VC", "HCW": "VE"},
+            "VB": {"CW": "VE", "ACW": "VD", "HCW": "VC"},
+            "VE": {"CW": "VC", "ACW": "VB", "HCW": "VD"},
             "LH": {"CW": "LV", "ACW": "LH"},
             "LV": {"CW": "LH", "ACW": "LV"}
         }
 
         r, c, clockwise = action
-        piece = state.board.get_value(r, c)
-
-        rotation = "CW" if clockwise else "ACW"
-        new_piece = rotations.get(piece, {}).get(rotation, piece)
-
-        new_board = Board(state.board.dim, [row[:] for row in state.board.content])        
-        new_board.content[r][c] = new_piece
         
-        return PipeManiaState(new_board) 
+        piece = state.board.get_value(r, c)
+        if(clockwise != "init"):
+            if (clockwise == "CW"):
+                rotation = "CW"
+            elif (clockwise == "ACW"):
+                rotation = "ACW"
+            else:
+                rotation = "HCW"
+            new_piece = rotations.get(piece, {}).get(rotation, piece)
+        else:
+            new_piece = piece
+        new_board = Board(state.board.dim, [row[:] for row in state.board.content])
+        new_board.content[r][c] = new_piece
 
+
+        return PipeManiaState(new_board, state.prof + 1)
+        
         
 
     def goal_test(self, state: PipeManiaState):
@@ -575,7 +553,7 @@ if __name__ == "__main__":
 board = Board.parse_instance()
 
 problem = PipeMania(board)
-goal_node = breadth_first_tree_search(problem)
+goal_node = depth_first_tree_search(problem)
 #initial_state = PipeManiaState(board)
 #print(problem.actions(initial_state))
 print("Is goal?", problem.goal_test(goal_node.state))
