@@ -560,8 +560,8 @@ class PipeMania(Problem):
         new_locked_pieces = [row[:] for row in state.locked_pieces]
 
         it = 1
-        r = state.prof + 1 // state.board.dim
-        c = state.prof + 1 % state.board.dim
+        r = (state.prof + 1) // state.board.dim
+        c = (state.prof + 1) % state.board.dim
         while(1):
             if(state.locked_pieces[r][c] == "unlock"):
                 break
