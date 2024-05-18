@@ -446,33 +446,72 @@ class PipeMania(Problem):
         #Listar em tuplos todas as ações possiveis a realizar num tabuleiro de dimensão nxn tendo em conta a posição das peças
         actions = []        
         dim = state.board.dim
+        flag = False
 
         if(state.prof < (dim * dim)):
             r = state.prof // dim
             c = state.prof % dim
             
+            profundidade_lock = state.prof
             while(1):
                 if(state.locked_pieces[r][c] == "unlock"):
                     piece = state.board.get_value(r, c)
                     if piece in ["FC", "FD", "FB", "FE"]:
+                        flag = True
                         actions.append((r, c, "init"))
                         actions.append((r, c, "CW"))
                         actions.append((r, c, "ACW"))
                         actions.append((r, c, "HCW"))
                     elif piece in ["BC", "BD", "BB", "BE"]:
-                        actions.append((r, c, "init"))
-                        actions.append((r, c, "CW"))
-                        actions.append((r, c, "ACW"))
-                        actions.append((r, c, "HCW"))
+                        if(piece == "BB" and r == 0):
+                            state.locked_pieces[r][c] = "lock"
+                        elif(piece == "BC" and r == dim - 1):
+                            state.locked_pieces[r][c] = "lock"
+                        elif(piece == "BD" and c == 0):
+                            state.locked_pieces[r][c] = "lock"
+                        elif(piece == "BE" and c == dim - 1):
+                            state.locked_pieces[r][c] = "lock"
+                        else:
+                            flag = True
+                            actions.append((r, c, "init"))
+                            actions.append((r, c, "CW"))
+                            actions.append((r, c, "ACW"))
+                            actions.append((r, c, "HCW"))
                     elif piece in ["VC", "VD", "VB", "VE"]:
-                        actions.append((r, c, "init"))
-                        actions.append((r, c, "CW"))
-                        actions.append((r, c, "ACW"))
-                        actions.append((r, c, "HCW"))
+                        if(piece == "VB" and (r == 0 and c == 0)):
+                            state.locked_pieces[r][c] = "lock"
+                        elif(piece == "VE" and (r == 0 and c == dim - 1)):
+                            state.locked_pieces[r][c] = "lock"
+                        elif(piece == "VD" and (r == dim - 1 and c == 0)):
+                            state.locked_pieces[r][c] = "lock"
+                        elif(piece == "VC" and (r == dim - 1 and c == dim - 1)):
+                            state.locked_pieces[r][c] = "lock"
+                        else:
+                            flag = True
+                            actions.append((r, c, "init"))
+                            actions.append((r, c, "CW"))
+                            actions.append((r, c, "ACW"))
+                            actions.append((r, c, "HCW"))
                     elif piece in ["LH", "LV"]:
-                        actions.append((r, c, "CW"))
-                        actions.append((r, c, "HCW"))
-
+                        if(piece == "LH" and (r == 0 or r == dim - 1)):
+                            state.locked_pieces[r][c] = "lock"
+                        elif(piece == "LV" and (c == 0 or c == dim -1)):
+                            state.locked_pieces[r][c] = "lock"
+                        else:
+                            flag = True
+                            actions.append((r, c, "CW"))
+                            actions.append((r, c, "HCW"))
+                    
+                    if(flag):
+                        break
+                
+                profundidade_lock += 1
+                if(profundidade_lock < (dim^2)):
+                    r = (profundidade_lock) // dim
+                    c = (profundidade_lock) % dim
+                else:
+                    break
+                
 
         return actions
 
@@ -514,11 +553,21 @@ class PipeMania(Problem):
             new_piece = rotations.get(piece, {}).get(rotation, piece)
         else:
             new_piece = piece
+        
+        #novo board
         new_board = Board(state.board.dim, [row[:] for row in state.board.content])
         new_board.content[r][c] = new_piece
+        new_locked_pieces = [row[:] for row in state.locked_pieces]
 
+        it = 1
+        r = state.prof + 1 // state.board.dim
+        c = state.prof + 1 % state.board.dim
+        while(1):
+            if(state.locked_pieces[r][c] == "unlock"):
+                break
+            it += 1
 
-        return PipeManiaState(new_board, state.prof + 1)
+        return PipeManiaState(new_board, state.prof + it, new_locked_pieces)
         
         
 
