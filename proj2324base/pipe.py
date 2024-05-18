@@ -23,9 +23,10 @@ profundidade = 0
 class PipeManiaState:
     state_id = 0
 
-    def __init__(self, board, prof):
+    def __init__(self, board, prof, locked_pieces):
         self.board = board
         self.prof = prof
+        self.locked_pieces = locked_pieces
         self.id = PipeManiaState.state_id
         PipeManiaState.state_id += 1
 
@@ -434,40 +435,43 @@ class PipeMania(Problem):
     def __init__(self, board: Board):
         """O construtor especifica o estado inicial."""
         # TODO
-        self.initial = PipeManiaState(board, profundidade)
+        locked_pieces = [["unlock" for _ in range(board.dim)] for _ in range(board.dim)]
+        self.initial = PipeManiaState(board, profundidade, locked_pieces)
+
         
 
     def actions(self, state: PipeManiaState):
         """Retorna uma lista de ações que podem ser executadas a
         partir do estado passado como argumento."""
         #Listar em tuplos todas as ações possiveis a realizar num tabuleiro de dimensão nxn tendo em conta a posição das peças
-        actions = []
+        actions = []        
         dim = state.board.dim
-        flag = False
 
         if(state.prof < (dim * dim)):
             r = state.prof // dim
             c = state.prof % dim
-               
-            piece = state.board.get_value(r, c)
-            if piece in ["FC", "FD", "FB", "FE"]:
-                actions.append((r, c, "init"))
-                actions.append((r, c, "CW"))
-                actions.append((r, c, "ACW"))
-                actions.append((r, c, "HCW"))
-            elif piece in ["BC", "BD", "BB", "BE"]:
-                actions.append((r, c, "init"))
-                actions.append((r, c, "CW"))
-                actions.append((r, c, "ACW"))
-                actions.append((r, c, "HCW"))
-            elif piece in ["VC", "VD", "VB", "VE"]:
-                actions.append((r, c, "init"))
-                actions.append((r, c, "CW"))
-                actions.append((r, c, "ACW"))
-                actions.append((r, c, "HCW"))
-            elif piece in ["LH", "LV"]:
-                actions.append((r, c, "CW"))
-                actions.append((r, c, "HCW"))
+            
+            while(1):
+                if(state.locked_pieces[r][c] == "unlock"):
+                    piece = state.board.get_value(r, c)
+                    if piece in ["FC", "FD", "FB", "FE"]:
+                        actions.append((r, c, "init"))
+                        actions.append((r, c, "CW"))
+                        actions.append((r, c, "ACW"))
+                        actions.append((r, c, "HCW"))
+                    elif piece in ["BC", "BD", "BB", "BE"]:
+                        actions.append((r, c, "init"))
+                        actions.append((r, c, "CW"))
+                        actions.append((r, c, "ACW"))
+                        actions.append((r, c, "HCW"))
+                    elif piece in ["VC", "VD", "VB", "VE"]:
+                        actions.append((r, c, "init"))
+                        actions.append((r, c, "CW"))
+                        actions.append((r, c, "ACW"))
+                        actions.append((r, c, "HCW"))
+                    elif piece in ["LH", "LV"]:
+                        actions.append((r, c, "CW"))
+                        actions.append((r, c, "HCW"))
 
 
         return actions
