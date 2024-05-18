@@ -18,7 +18,6 @@ from search import (
     recursive_best_first_search,
 )
 
-locked_pieces = None
 profundidade = 0
 
 class PipeManiaState:
@@ -422,8 +421,6 @@ class Board:
                 linha.append(word)
             content.append(linha)
 
-        global locked_pieces
-        locked_pieces = [["unlock"] * dim for _ in range(dim)]
         return Board(dim, content)
 
     def print(self):
@@ -444,7 +441,6 @@ class PipeMania(Problem):
         """Retorna uma lista de ações que podem ser executadas a
         partir do estado passado como argumento."""
         #Listar em tuplos todas as ações possiveis a realizar num tabuleiro de dimensão nxn tendo em conta a posição das peças
-        global locked_pieces
         actions = []
         dim = state.board.dim
         flag = False
