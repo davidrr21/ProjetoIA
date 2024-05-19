@@ -770,7 +770,6 @@ class PipeMania(Problem):
                 else:
                     break
                 
-
         return actions
 
 
@@ -819,7 +818,7 @@ class PipeMania(Problem):
 
         it = 1
         dim_total = state.board.dim * state.board.dim
-        if((state.prof + 1) < dim_total):#caso seja a úlrima peça do tabuleiro não pode estar trancada e vir parar aqui porque já não lhe deia mais ações no actions
+        if((state.prof + 1) < dim_total):#caso seja a última peça do tabuleiro não pode estar trancada e vir parar aqui porque já não lhe deia mais ações no actions
             r = (state.prof + 1) // state.board.dim
             c = (state.prof + 1) % state.board.dim
             while(1):
@@ -862,14 +861,6 @@ if __name__ == "__main__":
 board = Board.parse_instance()
 problem = PipeMania(board)
 goal_node = depth_first_tree_search(problem)
-print(goal_node.state)
+print(goal_node.state.board.print())
 #print("Is goal?", problem.goal_test(goal_node.state))
 #print("Solution:\n", goal_node.state.board.print(), sep="")
-
-
-
-#FB VC VD
-#BC BB LV
-#FB FB FE
-
-
