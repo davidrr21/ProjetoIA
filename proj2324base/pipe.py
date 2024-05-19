@@ -506,7 +506,7 @@ class PipeMania(Problem):
                         break
                 
                 profundidade_lock += 1
-                if(profundidade_lock < (dim^2)):
+                if(profundidade_lock < (dim * dim)):
                     r = (profundidade_lock) // dim
                     c = (profundidade_lock) % dim
                 else:
@@ -560,12 +560,14 @@ class PipeMania(Problem):
         new_locked_pieces = [row[:] for row in state.locked_pieces]
 
         it = 1
-        r = (state.prof + 1) // state.board.dim
-        c = (state.prof + 1) % state.board.dim
-        while(1):
-            if(state.locked_pieces[r][c] == "unlock"):
-                break
-            it += 1
+        dim_total = state.board.dim * state.board.dim
+        if((state.prof + 1) < dim_total):#caso seja a úlrima peça do tabuleiro não pode estar trancada e vir parar aqui porque já não lhe deia mais ações no actions
+            r = (state.prof + 1) // state.board.dim
+            c = (state.prof + 1) % state.board.dim
+            while(1):
+                if(state.locked_pieces[r][c] == "unlock"):
+                    break
+                it += 1
 
         return PipeManiaState(new_board, state.prof + it, new_locked_pieces)
         
