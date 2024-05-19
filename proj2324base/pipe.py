@@ -457,127 +457,39 @@ class PipeMania(Problem):
                 if(state.locked_pieces[r][c] == "unlock"):
                     piece = state.board.get_value(r, c)
                     if piece in ["FC", "FD", "FB", "FE"]:
-                        #FC
-                        if(piece == "FC" and r == 0 and c == 0):##canto superior esquerdo
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FC" and r == 0 and c == dim - 1): ##canto superior direito
-                            actions.append((r, c, "ACW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FC" and r == dim - 1 and c == 0): ##canto inferior esquerdo
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "CW"))
-                        elif(piece == "FC" and r == dim - 1 and c == dim - 1): ##canto inferior direito
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "ACW"))
-                        elif(piece == "FC" and r == 0): ##Primeira linha
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "ACW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FC" and r == dim - 1): ##Ultima linha
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "ACW"))
-                        elif(piece == "FC" and c == 0): ##Primeira coluna
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FC" and c == dim - 1): ##Ultima coluna
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "ACW"))
-                            actions.append((r, c, "HCW"))                        
-                        ##FB
-                        elif(piece == "FB" and r == 0 and c == 0):##canto superior esquerdo
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "ACW"))
-                        elif(piece == "FB" and r == 0 and c == dim - 1): ##canto superior direito
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "CW"))
-                        elif(piece == "FB" and r == dim - 1 and c == 0): ##canto inferior esquerdo
-                            actions.append((r, c, "ACW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FB" and r == dim - 1 and c == dim - 1): ##canto inferior direito
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FB" and r == 0): ##Primeira linha
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "ACW"))
-                        elif(piece == "FB" and r == dim - 1): ##Ultima linha
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "ACW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FB" and c == 0): ##Primeira coluna
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "ACW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FB" and c == dim - 1): ##Ultima coluna
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "HCW"))                        
-                        ##FE
-                        elif(piece == "FE" and r == 0 and c == 0):##canto superior esquerdo
-                            actions.append((r, c, "ACW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FE" and r == 0 and c == dim - 1): ##canto superior direito
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "ACW"))
-                        elif(piece == "FE" and r == dim - 1 and c == 0): ##canto inferior esquerdo
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FE" and r == dim - 1 and c == dim - 1): ##canto inferior direito
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "CW"))
-                        elif(piece == "FE" and r == 0): ##Primeira linha
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "ACW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FE" and r == dim - 1): ##Ultima linha
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FE" and c == 0): ##Primeira coluna
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "ACW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FE" and c == dim - 1): ##Ultima coluna
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "ACW"))
-                        ##FD
-                        elif(piece == "FD" and r == 0 and c == 0):##canto superior esquerdo
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "CW"))
-                        elif(piece == "FD" and r == 0 and c == dim - 1): ##canto superior direito
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FD" and r == dim - 1 and c == 0): ##canto inferior esquerdo
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "ACW"))
-                        elif(piece == "FD" and r == dim - 1 and c == dim - 1): ##canto inferior direito
-                            actions.append((r, c, "ACW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FD" and r == 0): ##Primeira linha
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FD" and r == dim - 1): ##Ultima linha
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "ACW"))
-                            actions.append((r, c, "HCW"))
-                        elif(piece == "FD" and c == 0): ##Primeira coluna
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "ACW"))
-                        elif(piece == "FD" and c == dim - 1): ##Ultima coluna
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "ACW"))
-                            actions.append((r, c, "HCW"))
+                        if(r == 0 and c == 0):##canto superior esquerdo
+                            actions.append((r, c, "FB"))
+                            actions.append((r, c, "FD"))
+                        elif(r == 0 and c == dim - 1): ##canto superior direito
+                            actions.append((r, c, "FB"))
+                            actions.append((r, c, "FE"))
+                        elif(r == dim - 1 and c == 0): ##canto inferior esquerdo
+                            actions.append((r, c, "FC"))
+                            actions.append((r, c, "FD"))
+                        elif(r == dim - 1 and c == dim - 1): ##canto inferior direito
+                            actions.append((r, c, "FC"))
+                            actions.append((r, c, "FE"))
+                        elif(r == 0): ##Primeira linha
+                            actions.append((r, c, "FE"))
+                            actions.append((r, c, "FB"))
+                            actions.append((r, c, "FD"))
+                        elif(r == dim - 1): ##Ultima linha
+                            actions.append((r, c, "FE"))
+                            actions.append((r, c, "FC"))
+                            actions.append((r, c, "FD"))
+                        elif(c == 0): ##Primeira coluna
+                            actions.append((r, c, "FC"))
+                            actions.append((r, c, "FD"))
+                            actions.append((r, c, "FB"))
+                        elif(c == dim - 1): ##Ultima coluna
+                            actions.append((r, c, "FC"))
+                            actions.append((r, c, "FE"))
+                            actions.append((r, c, "FB"))                        
                         else:
-                            actions.append((r, c, "init"))
-                            actions.append((r, c, "CW"))
-                            actions.append((r, c, "ACW"))
-                            actions.append((r, c, "HCW"))
+                            actions.append((r, c, "FC"))
+                            actions.append((r, c, "FD"))
+                            actions.append((r, c, "FB"))
+                            actions.append((r, c, "FE"))
                         flag = True
                     elif piece in ["BC", "BD", "BB", "BE"]:
                         if(piece == "BB" and r == 0):
@@ -590,46 +502,19 @@ class PipeMania(Problem):
                             state.locked_pieces[r][c] = "lock"
                         else:
                             ##BC
-                            if(piece == "BC" and r == 0): ##Primeira linha
-                                actions.append((r,c,"HCW"))
-                            elif(piece == "BC" and r == dim - 1): ##Ultima linha
-                                actions.append((r,c,"init"))
-                            elif(piece == "BC" and c == 0): ##Primeira coluna
-                                actions.append((r,c,"CW"))
-                            elif(piece == "BC" and c == dim - 1): ##Ultima coluna
-                                actions.append((r,c,"ACW"))
-                            ##BB
-                            elif(piece == "BB" and r == 0): ##Primeira linha
-                                actions.append((r,c,"init"))
-                            elif(piece == "BB" and r == dim - 1): ##Ultima linha
-                                actions.append((r,c,"HCW"))
-                            elif(piece == "BB" and c == 0): ##Primeira coluna
-                                actions.append((r,c,"ACW"))
-                            elif(piece == "BB" and c == dim - 1): ##Ultima coluna
-                                actions.append((r,c,"CW"))
-                            ##BE
-                            elif(piece == "BE" and r == 0): ##Primeira linha
-                                actions.append((r,c,"ACW"))
-                            elif(piece == "BE" and r == dim - 1): ##Ultima linha
-                                actions.append((r,c,"CW"))
-                            elif(piece == "BE" and c == 0): ##Primeira coluna
-                                actions.append((r,c,"HCW"))
-                            elif(piece == "BE" and c == dim - 1): ##Ultima coluna
-                                actions.append((r,c,"init"))
-                            ##BD
-                            elif(piece == "BD" and r == 0): ##Primeira linha
-                                actions.append((r,c,"CW"))
-                            elif(piece == "BD" and r == dim - 1): ##Ultima linha
-                                actions.append((r,c,"ACW"))
-                            elif(piece == "BD" and c == 0): ##Primeira coluna
-                                actions.append((r,c,"init"))
-                            elif(piece == "BD" and c == dim - 1): ##Ultima coluna
-                                actions.append((r,c,"HCW"))
+                            if(r == 0): ##Primeira linha
+                                actions.append((r, c, "BB"))
+                            elif(r == dim - 1): ##Ultima linha
+                                actions.append((r, c, "BC"))
+                            elif(c == 0): ##Primeira coluna
+                                actions.append((r, c, "BD"))
+                            elif(c == dim - 1): ##Ultima coluna
+                                actions.append((r, c, "BE"))
                             else:
-                                actions.append((r,c,"init"))
-                                actions.append((r,c,"CW"))
-                                actions.append((r,c,"ACW"))
-                                actions.append((r,c,"HCW"))
+                                actions.append((r, c, "BC"))
+                                actions.append((r, c, "BD"))
+                                actions.append((r, c, "BB"))
+                                actions.append((r, c, "BE"))
                             flag = True
                     elif piece in ["VC", "VD", "VB", "VE"]:
                         if(piece == "VB" and (r == 0 and c == 0)):
@@ -641,95 +526,31 @@ class PipeMania(Problem):
                         elif(piece == "VC" and (r == dim - 1 and c == dim - 1)):
                             state.locked_pieces[r][c] = "lock"
                         else:
-                            ##VC
-                            if(piece == "VC" and r == 0 and c == 0): ##canto superior esquerdo
-                                actions.append((r,c,"HCW"))
-                            elif(piece == "VC" and r == 0 and c == dim - 1): ##canto superior direito
-                                actions.append((r,c,"ACW"))
-                            elif(piece == "VC" and r == dim - 1 and c == 0): ##canto inferior esquerdo
-                                actions.append((r,c,"CW"))
-                            elif(piece == "VC" and r == dim - 1 and c == dim - 1): ##canto inferior direito
-                                actions.append((r,c,"init"))
-                            elif(piece == "VC" and r == 0): ##Primeira linha
-                                actions.append((r,c,"ACW"))
-                                actions.append((r,c,"HCW"))
-                            elif(piece == "VC" and r == dim - 1): ##Ultima linha
-                                actions.append((r,c,"init"))
-                                actions.append((r,c,"CW"))
-                            elif(piece == "VC" and c == 0): ##Primeira coluna
-                                actions.append((r,c,"CW"))
-                                actions.append((r,c,"HCW"))
-                            elif(piece == "VC" and c == dim - 1): ##Ultima coluna
-                                actions.append((r,c,"init"))
-                                actions.append((r,c,"ACW"))
-                            ##VB
-                            elif(piece == "VB" and r == 0 and c == 0): ##canto superior esquerdo
-                                actions.append((r,c,"init"))
-                            elif(piece == "VB" and r == 0 and c == dim - 1): ##canto superior direito
-                                actions.append((r,c,"CW"))
-                            elif(piece == "VB" and r == dim - 1 and c == 0): ##canto inferior esquerdo
-                                actions.append((r,c,"ACW"))
-                            elif(piece == "VB" and r == dim - 1 and c == dim - 1): ##canto inferior direito
-                                actions.append((r,c,"HCW"))
-                            elif(piece == "VB" and r == 0): ##Primeira linha
-                                actions.append((r,c,"init"))
-                                actions.append((r,c,"CW"))
-                            elif(piece == "VB" and r == dim - 1): ##Ultima linha
-                                actions.append((r,c,"ACW"))
-                                actions.append((r,c,"HCW"))
-                            elif(piece == "VB" and c == 0): ##Primeira coluna
-                                actions.append((r,c,"init"))
-                                actions.append((r,c,"ACW"))
-                            elif(piece == "VB" and c == dim - 1): ##Ultima coluna
-                                actions.append((r,c,"CW"))
-                                actions.append((r,c,"HCW"))
-                            ##VE
-                            elif(piece == "VE" and r == 0 and c == 0): ##canto superior esquerdo
-                                actions.append((r,c,"ACW"))
-                            elif(piece == "VE" and r == 0 and c == dim - 1): ##canto superior direito
-                                actions.append((r,c,"init"))
-                            elif(piece == "VE" and r == dim - 1 and c == 0): ##canto inferior esquerdo
-                                actions.append((r,c,"HCW"))
-                            elif(piece == "VE" and r == dim - 1 and c == dim - 1): ##canto inferior direito
-                                actions.append((r,c,"CW"))
-                            elif(piece == "VE" and r == 0): ##Primeira linha
-                                actions.append((r,c,"init"))
-                                actions.append((r,c,"ACW"))
-                            elif(piece == "VE" and r == dim - 1): ##Ultima linha
-                                actions.append((r,c,"CW"))
-                                actions.append((r,c,"HCW"))
-                            elif(piece == "VE" and c == 0): ##Primeira coluna
-                                actions.append((r,c,"ACW"))
-                                actions.append((r,c,"HCW"))
-                            elif(piece == "VE" and c == dim - 1): ##Ultima coluna
-                                actions.append((r,c,"init"))
-                                actions.append((r,c,"CW")) 
-                            ##VD
-                            elif(piece == "VD" and r == 0 and c == 0): ##canto superior esquerdo
-                                actions.append((r,c,"CW"))
-                            elif(piece == "VD" and r == 0 and c == dim - 1): ##canto superior direito
-                                actions.append((r,c,"HCW"))
-                            elif(piece == "VD" and r == dim - 1 and c == 0): ##canto inferior esquerdo
-                                actions.append((r,c,"init"))
-                            elif(piece == "VD" and r == dim - 1 and c == dim - 1): ##canto inferior direito
-                                actions.append((r,c,"ACW"))
-                            elif(piece == "VD" and r == 0): ##Primeira linha
-                                actions.append((r,c,"CW"))
-                                actions.append((r,c,"HCW"))
-                            elif(piece == "VD" and r == dim - 1): ##Ultima linha
-                                actions.append((r,c,"init"))
-                                actions.append((r,c,"ACW"))
-                            elif(piece == "VD" and c == 0): ##Primeira coluna
-                                actions.append((r,c,"init"))
-                                actions.append((r,c,"CW"))
-                            elif(piece == "VD" and c == dim - 1): ##Ultima coluna
-                                actions.append((r,c,"ACW"))
-                                actions.append((r,c,"HCW"))
+                            if(r == 0 and c == 0): ##canto superior esquerdo
+                                actions.append((r, c, "VB"))
+                            elif(r == 0 and c == dim - 1): ##canto superior direito
+                                actions.append((r, c, "VE"))
+                            elif(r == dim - 1 and c == 0): ##canto inferior esquerdo
+                                actions.append((r, c, "VD"))
+                            elif(r == dim - 1 and c == dim - 1): ##canto inferior direito
+                                actions.append((r, c, "VC"))
+                            elif(r == 0): ##Primeira linha
+                                actions.append((r, c, "VB"))
+                                actions.append((r, c, "VE"))
+                            elif(r == dim - 1): ##Ultima linha
+                                actions.append((r, c, "VC"))
+                                actions.append((r, c, "VD"))
+                            elif(c == 0): ##Primeira coluna
+                                actions.append((r, c, "VB"))
+                                actions.append((r, c, "VD"))
+                            elif(c == dim - 1): ##Ultima coluna
+                                actions.append((r, c, "VC"))
+                                actions.append((r, c, "VE"))
                             else:
-                                actions.append((r, c, "init"))
-                                actions.append((r, c, "CW"))
-                                actions.append((r, c, "ACW"))
-                                actions.append((r, c, "HCW"))
+                                actions.append((r, c, "VC"))
+                                actions.append((r, c, "VD"))
+                                actions.append((r, c, "VB"))
+                                actions.append((r, c, "VE"))
                             flag = True
                     elif piece in ["LH", "LV"]:
                         if(piece == "LH" and (r == 0 or r == dim - 1)):
@@ -737,27 +558,17 @@ class PipeMania(Problem):
                         elif(piece == "LV" and (c == 0 or c == dim -1)):
                             state.locked_pieces[r][c] = "lock"
                         else:
-                            ##LH
-                            if(piece == "LH" and r == 0): ##Primeira linha
-                                actions.append((r, c, "init"))
-                            elif(piece == "LH" and r == dim - 1): ##Ultima linha
-                                actions.append((r, c, "init"))
-                            elif(piece == "LH" and c == 0): ##Primeira coluna
-                                actions.append((r, c, "CW"))
-                            elif(piece == "LH" and c == dim - 1): ##Ultima coluna
-                                actions.append((r, c, "CW"))
-                            ##LV
-                            elif(piece == "LV" and r == 0): ##Primeira linha
-                                actions.append((r, c, "CW"))
-                            elif(piece == "LV" and r == dim - 1): ##Ultima linha
-                                actions.append((r, c, "CW"))
-                            elif(piece == "LV" and c == 0): ##Primeira coluna
-                                actions.append((r, c, "init"))
-                            elif(piece == "LV" and c == dim - 1): ##Ultima coluna
-                                actions.append((r, c, "init"))
+                            if(r == 0): ##Primeira linha
+                                actions.append((r, c, "LH"))
+                            elif(r == dim - 1): ##Ultima linha
+                                actions.append((r, c, "LH"))
+                            elif(c == 0): ##Primeira coluna
+                                actions.append((r, c, "LV"))
+                            elif(c == dim - 1): ##Ultima coluna
+                                actions.append((r, c, "LV"))
                             else:
-                                actions.append((r, c, "init"))
-                                actions.append((r, c, "CW"))
+                                actions.append((r, c, "LH"))
+                                actions.append((r, c, "LV"))
                             flag = True
                     
                     if(flag):
@@ -769,7 +580,7 @@ class PipeMania(Problem):
                     c = (profundidade_lock) % dim
                 else:
                     break
-                
+        print("ações: ", actions)
         return actions
 
 
@@ -780,36 +591,9 @@ class PipeMania(Problem):
         self.actions(state)."""
         # TODO
 
-        rotations = {
-            "FC": {"CW": "FD", "ACW": "FE", "HCW": "FB"},
-            "FD": {"CW": "FB", "ACW": "FC", "HCW": "FE"},
-            "FB": {"CW": "FE", "ACW": "FD", "HCW": "FC"},
-            "FE": {"CW": "FC", "ACW": "FB", "HCW": "FD"},
-            "BC": {"CW": "BD", "ACW": "BE", "HCW": "BB"},
-            "BD": {"CW": "BB", "ACW": "BC", "HCW": "BE"},
-            "BB": {"CW": "BE", "ACW": "BD", "HCW": "BC"},
-            "BE": {"CW": "BC", "ACW": "BB", "HCW": "BD"},
-            "VC": {"CW": "VD", "ACW": "VE", "HCW": "VB"},
-            "VD": {"CW": "VB", "ACW": "VC", "HCW": "VE"},
-            "VB": {"CW": "VE", "ACW": "VD", "HCW": "VC"},
-            "VE": {"CW": "VC", "ACW": "VB", "HCW": "VD"},
-            "LH": {"CW": "LV", "ACW": "LH"},
-            "LV": {"CW": "LH", "ACW": "LV"}
-        }
-
-        r, c, clockwise = action
+        r, c, position = action
         
-        piece = state.board.get_value(r, c)
-        if(clockwise != "init"):
-            if (clockwise == "CW"):
-                rotation = "CW"
-            elif (clockwise == "ACW"):
-                rotation = "ACW"
-            else:
-                rotation = "HCW"
-            new_piece = rotations.get(piece, {}).get(rotation, piece)
-        else:
-            new_piece = piece
+        new_piece = position
         
         #novo board
         new_board = Board(state.board.dim, [row[:] for row in state.board.content])
@@ -861,6 +645,6 @@ if __name__ == "__main__":
 board = Board.parse_instance()
 problem = PipeMania(board)
 goal_node = depth_first_tree_search(problem)
-goal_node.state.board.print()
-#print("Is goal?", problem.goal_test(goal_node.state))
-#print("Solution:\n", goal_node.state.board.print(), sep="")
+#goal_node.state.board.print()
+print("Is goal?", problem.goal_test(goal_node.state))
+print("Solution:\n", goal_node.state.board.print(), sep="")
