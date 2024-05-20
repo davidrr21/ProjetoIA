@@ -468,7 +468,7 @@ class Board:
         while(1):
             flag = False
             it = 0
-            feito = 0
+            done = 0
             while(it != (dim*dim)):
 
                 r = it // dim
@@ -479,105 +479,196 @@ class Board:
                     if piece in ["FC", "FD", "FB", "FE"]:
                         if(r == 0 and c == 0):##canto superior esquerdo
                             #right
-                            if(locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)):
+                            if((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) or (locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down))):
                                 content[r][c] = "FD"
                                 locked_pieces[r][c] = "lock"
                             #down
-                            elif(locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)):
+                            elif((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) or(locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right))):
                                 content[r][c] = "FB"
                                 locked_pieces[r][c] = "lock"
                         elif(r == 0 and c == dim - 1): ##canto superior direito
                             #left
-                            if(locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)):
+                            if((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) or (locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down))):
                                 content[r][c] = "FE"
                                 locked_pieces[r][c] = "lock"
                             #down
-                            elif(locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)):
+                            elif((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) (locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left))):
                                 content[r][c] = "FB"
                                 locked_pieces[r][c] = "lock"
                         elif(r == dim - 1 and c == 0): ##canto inferior esquerdo
                             #right
-                            if(locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)):
+                            if((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) or (locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up))):
                                 content[r][c] = "FD"
                                 locked_pieces[r][c] = "lock"
                             #up
-                            elif(locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)):
+                            elif((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) or (locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right))):
                                 content[r][c] = "FC"
                                 locked_pieces[r][c] = "lock"
                         elif(r == dim - 1 and c == dim - 1): ##canto inferior direito
                             #left
-                            if(locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)):
+                            if((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) or (locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up))):
                                 content[r][c] = "FE"
                                 locked_pieces[r][c] = "lock"
                             #up
-                            elif(locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)):
+                            elif((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) or (locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left))):
                                 content[r][c] = "FC"
                                 locked_pieces[r][c] = "lock"
-                        elif(r == 0 or r == dim - 1): ##Primeira ou última linha
+                        elif(r == 0): ##Primeira linha
                             #right
-                            if(locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)):
+                            if((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) or ((locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)) and( locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)))):
                                 content[r][c] = "FD"
                                 locked_pieces[r][c] = "lock"
                             #left
-                            elif(locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)):
+                            elif((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) or ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)) and( locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)))):
                                 content[r][c] = "FE"
                                 locked_pieces[r][c] = "lock"
-                        elif(c == 0 or c == dim - 1): ##Primeira ou última coluna
+                            #primeira linha
+                            elif(((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) or ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)) and( locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)))) and (r == 0)):
+                                content[r][c] = "FB"
+                                locked_pieces[r][c] = "lock"
+                        elif(r == dim - 1):#Última linha
+                             #right
+                            if((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) or ((locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)) and( locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)))):
+                                content[r][c] = "FD"
+                                locked_pieces[r][c] = "lock"
+                            #left
+                            elif((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) or ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)) and( locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)))):
+                                content[r][c] = "FE"
+                                locked_pieces[r][c] = "lock"
+                            #última linha
+                            elif(((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) or ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)) and( locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)))) and (r == (dim -1))):
+                                content[r][c] = "FC"
+                                locked_pieces[r][c] = "lock"
+                        elif(c == 0): ##Primeira coluna
                             #up
-                            if(locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)):
+                            if((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) or ((locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)) and( locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)))):
                                 content[r][c] = "FC"
                                 locked_pieces[r][c] = "lock"
                             #down
-                            elif(locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)):
+                            elif((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) or ((locked_pieces[r-1][c] == "lock" and (content[r-1][c-1] not in Up)) and( locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)))):
                                 content[r][c] = "FB"
-                                locked_pieces[r][c] = "lock"                        
-                        else:
-                            flag = True  
+                                locked_pieces[r][c] = "lock" 
+                            #primeira coluna
+                            elif(((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) or ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)) and( locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))) and (c == 0)):
+                                content[r][c] = "FD"
+                                locked_pieces[r][c] = "lock" 
+                        elif(c == dim - 1):#última coluna
+                            #up
+                            if((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) or ((locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)) and( locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)))):
+                                content[r][c] = "FC"
+                                locked_pieces[r][c] = "lock"
+                            #down
+                            elif((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) or ((locked_pieces[r-1][c] == "lock" and (content[r-1][c-1] not in Up)) and( locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)))):
+                                content[r][c] = "FB"
+                                locked_pieces[r][c] = "lock"
+                            #última coluna
+                            elif(((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) or ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)) and( locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))) and (c == (dim-1))):
+                                content[r][c] = "FE"
+                                locked_pieces[r][c] = "lock"
+                        else:#caso em que a peça está no meio
+                            if((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) or ((locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))):
+                                content[r][c] = "FC"
+                                locked_pieces[r][c] = "lock"
+                            elif((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) or ((locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)) and (locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))):
+                                content[r][c] = "FD"
+                                locked_pieces[r][c] = "lock"
+                            elif((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) or ((locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)) and (locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)))):
+                                content[r][c] = "FB"
+                                locked_pieces[r][c] = "lock"
+                            elif((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) or ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))):
+                                content[r][c] = "FE"
+                                locked_pieces[r][c] = "lock"
+                            else:
+                                flag = True  
                     elif piece in ["VC", "VD", "VB", "VE"]:
                         if(r == 0): ##Primeira linha
                             #right
-                            if(locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)):
+                            if((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) or (locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left))):
                                 content[r][c] = "VB"
                                 locked_pieces[r][c] = "lock"
                             #left
-                            elif(locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)):
+                            elif((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) or (locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right))):
                                 content[r][c] = "VE"
                                 locked_pieces[r][c] = "lock"
                         elif(r == dim - 1): ##Ultima linha
                             #right
-                            if(locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)):
+                            if((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) or (locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left))):
                                 content[r][c] = "VD"
                                 locked_pieces[r][c] = "lock"
                             #left
-                            elif(locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)):
+                            elif((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) or (locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right))):
                                 content[r][c] = "VC"
                                 locked_pieces[r][c] = "lock"
                         elif(c == 0): ##Primeira coluna
                             #up
-                            if(locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)):
+                            if((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) or (locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down))):
                                 content[r][c] = "VD"
                                 locked_pieces[r][c] = "lock"
                             #down
-                            elif(locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)):
+                            elif((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) or (locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up))):
                                 content[r][c] = "VB"
                                 locked_pieces[r][c] = "lock" 
                         elif(c == dim - 1): ##Ultima coluna
                             #up
-                            if(locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)):
+                            if((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) or (locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down))):
                                 content[r][c] = "VC"
                                 locked_pieces[r][c] = "lock"
                             #down
-                            elif(locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)):
+                            elif((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) or (locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up))):
                                 content[r][c] = "VE"
                                 locked_pieces[r][c] = "lock"
+                        else:#caso em que a peça está no meio
+                            if(((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left))) or
+                                ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))):
+                                content[r][c] = "VC"
+                                locked_pieces[r][c] = "lock"
+                            elif(((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right))) or
+                                ((locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))):
+                                content[r][c] = "VD"
+                                locked_pieces[r][c] = "lock"
+                            elif(((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right))) or
+                                ((locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)) and (locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)))):
+                                content[r][c] = "VB"
+                                locked_pieces[r][c] = "lock"
+                            elif(((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down))) or
+                                ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)) and (locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)))):
+                                content[r][c] = "VE"
+                                locked_pieces[r][c] = "lock"
+                            else:
+                                flag = True
+                    #quando tenho outro tipo de peças B's ou L's mas que estão no meio
+                    elif piece in ["LH", "LV"]:
+                        if(((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down))) or
+                            ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)))):
+                            content[r][c] = "LV"
+                            locked_pieces[r][c] = "lock"
+                        elif(((locked_pieces[r][c+1] == "lock" and (content[r][c+1]  in Right)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left))) or
+                            ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))):
+                            content[r][c] = "LH"
+                            locked_pieces[r][c] = "lock"
+                    elif piece in ["BC", "BB", "BE", "BD"]:
+                        if(((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right))) or 
+                            ((locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))):
+                            content[r][c] = "BC"
+                            locked_pieces[r][c] = "lock"
+                        elif(((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right))) or
+                            ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)))):
+                            content[r][c] = "BB"
+                            locked_pieces[r][c] = "lock"
+                        elif(((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down))) or
+                            ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)))):
+                            content[r][c] = "BE"
+                            locked_pieces[r][c] = "lock"
+                        elif(((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right))) or
+                            ((locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)))):
+                            content[r][c] = "BD"
+                            locked_pieces[r][c] = "lock"
                         else:
-                            flag = True
-                    else:#quando tenho outro tipo de peças B's ou L's mas que estão no meio
-                        flag = True          
+                            flag = True         
                 else:
-                    feito +=1   
+                    done +=1   
                 it += 1
-            if(feito == (dim*dim)):
+            if(done == (dim*dim)):
                 flag = True
             if(flag):
                 break
@@ -639,16 +730,19 @@ class PipeMania(Problem):
                         actions.append((r, c, "FC"))
                         actions.append((r, c, "FE"))
                         actions.append((r, c, "FB"))                        
-                    else:
-                        actions.append((r, c, "FC"))
-                        actions.append((r, c, "FD"))
-                        actions.append((r, c, "FB"))
-                        actions.append((r, c, "FE"))
-                elif piece in ["BC", "BD", "BB", "BE"]:#considerar inferências para caso a peça esteja no meio
-                    actions.append((r, c, "BC"))
-                    actions.append((r, c, "BD"))
-                    actions.append((r, c, "BB"))
-                    actions.append((r, c, "BE"))
+                    else:#interior
+                        if((state.board.get_value(r-1, c) in Up) and (state.board.get_value(r, c-1) in Left)):
+                            #não é possível por isso cortar este ramo
+                            pass
+                        elif(state.board.get_value(r-1, c) in Up):
+                            actions.append((r, c, "FC"))
+                        elif(state.board.get_value(r, c-1) in Left):
+                            actions.append((r, c, "FE"))
+                        else:
+                            actions.append((r, c, "FC"))
+                            actions.append((r, c, "FD"))
+                            actions.append((r, c, "FB"))
+                            actions.append((r, c, "FE"))
                 elif piece in ["VC", "VD", "VB", "VE"]:
                     if(r == 0): ##Primeira linha
                         actions.append((r, c, "VB"))
@@ -662,11 +756,18 @@ class PipeMania(Problem):
                     elif(c == dim - 1): ##Ultima coluna
                         actions.append((r, c, "VC"))
                         actions.append((r, c, "VE"))
-                    else:
+                    else:#interior
+
                         actions.append((r, c, "VC"))
                         actions.append((r, c, "VD"))
                         actions.append((r, c, "VB"))
                         actions.append((r, c, "VE"))
+                #considerar inferências para caso a peça esteja no meio
+                elif piece in ["BC", "BD", "BB", "BE"]:
+                    actions.append((r, c, "BC"))
+                    actions.append((r, c, "BD"))
+                    actions.append((r, c, "BB"))
+                    actions.append((r, c, "BE"))
                 elif piece in ["LH", "LV"]:
                     actions.append((r, c, "LH"))
                     actions.append((r, c, "LV"))                
@@ -723,9 +824,9 @@ if __name__ == "__main__":
 board = Board.parse_instance()
 problem = PipeMania(board)
 goal_node = depth_first_tree_search(problem)
-#goal_node.state.board.print()
-print("Is goal?", problem.goal_test(goal_node.state))
-print("Solution:\n", goal_node.state.board.print(), sep="")
+print(goal_node.state.board.print())
+#print("Is goal?", problem.goal_test(goal_node.state))
+#print("Solution:\n", goal_node.state.board.print(), sep="")
 
 #FB VC VD
 #BC BB LV
