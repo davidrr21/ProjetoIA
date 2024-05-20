@@ -464,12 +464,13 @@ class Board:
                     content[r][c] = "LV"
                     locked_pieces[r][c] = "lock"          
             it += 1
-        
         #completar móldura caso possível, só não faz com os B's e com os L's porque esses estão de certeza locked na móldura
         while(1):
             flag = False
             it = 0
+            feito = 0
             while(it != (dim*dim)):
+
                 r = it // dim
                 c = it % dim
 
@@ -573,7 +574,11 @@ class Board:
                             flag = True
                     else:#quando tenho outro tipo de peças B's ou L's mas que estão no meio
                         flag = True          
+                else:
+                    feito +=1   
                 it += 1
+            if(feito == (dim*dim)):
+                flag = True
             if(flag):
                 break
         
@@ -639,84 +644,34 @@ class PipeMania(Problem):
                         actions.append((r, c, "FD"))
                         actions.append((r, c, "FB"))
                         actions.append((r, c, "FE"))
-                elif piece in ["BC", "BD", "BB", "BE"]:
-                    if(piece == "BB" and r == 0):
-                        actions.append((r, c, "BB"))
-                    elif(piece == "BC" and r == dim - 1):
-                        actions.append((r, c, "BC"))
-                    elif(piece == "BD" and c == 0):
-                        actions.append((r, c, "BD"))
-                    elif(piece == "BE" and c == dim - 1):
-                        actions.append((r, c, "BE"))
-                    else:
-                        if(r == 0): ##Primeira linha
-                            actions.append((r, c, "BB"))
-                        elif(r == dim - 1): ##Ultima linha
-                            actions.append((r, c, "BC"))
-                        elif(c == 0): ##Primeira coluna
-                            actions.append((r, c, "BD"))
-                        elif(c == dim - 1): ##Ultima coluna
-                            actions.append((r, c, "BE"))
-                        else:
-                            actions.append((r, c, "BC"))
-                            actions.append((r, c, "BD"))
-                            actions.append((r, c, "BB"))
-                            actions.append((r, c, "BE"))
+                elif piece in ["BC", "BD", "BB", "BE"]:#considerar inferências para caso a peça esteja no meio
+                    actions.append((r, c, "BC"))
+                    actions.append((r, c, "BD"))
+                    actions.append((r, c, "BB"))
+                    actions.append((r, c, "BE"))
                 elif piece in ["VC", "VD", "VB", "VE"]:
-                    if(piece == "VB" and (r == 0 and c == 0)):
+                    if(r == 0): ##Primeira linha
                         actions.append((r, c, "VB"))
-                    elif(piece == "VE" and (r == 0 and c == dim - 1)):
                         actions.append((r, c, "VE"))
-                    elif(piece == "VD" and (r == dim - 1 and c == 0)):
-                        actions.append((r, c, "VD"))
-                    elif(piece == "VC" and (r == dim - 1 and c == dim - 1)):
+                    elif(r == dim - 1): ##Ultima linha
                         actions.append((r, c, "VC"))
+                        actions.append((r, c, "VD"))
+                    elif(c == 0): ##Primeira coluna
+                        actions.append((r, c, "VB"))
+                        actions.append((r, c, "VD"))
+                    elif(c == dim - 1): ##Ultima coluna
+                        actions.append((r, c, "VC"))
+                        actions.append((r, c, "VE"))
                     else:
-                        if(r == 0 and c == 0): ##canto superior esquerdo
-                            actions.append((r, c, "VB"))
-                        elif(r == 0 and c == dim - 1): ##canto superior direito
-                            actions.append((r, c, "VE"))
-                        elif(r == dim - 1 and c == 0): ##canto inferior esquerdo
-                            actions.append((r, c, "VD"))
-                        elif(r == dim - 1 and c == dim - 1): ##canto inferior direito
-                            actions.append((r, c, "VC"))
-                        elif(r == 0): ##Primeira linha
-                            actions.append((r, c, "VB"))
-                            actions.append((r, c, "VE"))
-                        elif(r == dim - 1): ##Ultima linha
-                            actions.append((r, c, "VC"))
-                            actions.append((r, c, "VD"))
-                        elif(c == 0): ##Primeira coluna
-                            actions.append((r, c, "VB"))
-                            actions.append((r, c, "VD"))
-                        elif(c == dim - 1): ##Ultima coluna
-                            actions.append((r, c, "VC"))
-                            actions.append((r, c, "VE"))
-                        else:
-                            actions.append((r, c, "VC"))
-                            actions.append((r, c, "VD"))
-                            actions.append((r, c, "VB"))
-                            actions.append((r, c, "VE"))
+                        actions.append((r, c, "VC"))
+                        actions.append((r, c, "VD"))
+                        actions.append((r, c, "VB"))
+                        actions.append((r, c, "VE"))
                 elif piece in ["LH", "LV"]:
-                    if(piece == "LH" and (r == 0 or r == dim - 1)):
-                        actions.append((r, c, "LH"))
-                    elif(piece == "LV" and (c == 0 or c == dim -1)):
-                        actions.append((r, c, "LV"))
-                    else:
-                        if(r == 0): ##Primeira linha
-                            actions.append((r, c, "LH"))
-                        elif(r == dim - 1): ##Ultima linha
-                            actions.append((r, c, "LH"))
-                        elif(c == 0): ##Primeira coluna
-                            actions.append((r, c, "LV"))
-                        elif(c == dim - 1): ##Ultima coluna
-                            actions.append((r, c, "LV"))
-                        else:
-                            actions.append((r, c, "LH"))
-                            actions.append((r, c, "LV"))                
-            else:#devolve a única ação da peça bloqueada que é ela mesmo
+                    actions.append((r, c, "LH"))
+                    actions.append((r, c, "LV"))                
+            else:#devolve a única ação da peça bloqueada que é ela mesma
                 actions.append((r, c, state.board.content[r][c]))
-
         return actions
 
 
@@ -730,7 +685,7 @@ class PipeMania(Problem):
         r, c, position = action
                 
         #novo board
-        new_board = Board(state.board.dim, [row[:] for row in state.board.content], [row[:] for row in state.locked_pieces])
+        new_board = Board(state.board.dim, [row[:] for row in state.board.content], [row[:] for row in state.board.locked_pieces])
         new_board.content[r][c] = position
 
         return PipeManiaState(new_board, state.prof + 1)
@@ -768,9 +723,9 @@ if __name__ == "__main__":
 board = Board.parse_instance()
 problem = PipeMania(board)
 goal_node = depth_first_tree_search(problem)
-goal_node.state.board.print()
-#print("Is goal?", problem.goal_test(goal_node.state))
-#print("Solution:\n", goal_node.state.board.print(), sep="")
+#goal_node.state.board.print()
+print("Is goal?", problem.goal_test(goal_node.state))
+print("Solution:\n", goal_node.state.board.print(), sep="")
 
 #FB VC VD
 #BC BB LV
