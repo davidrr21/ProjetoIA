@@ -464,7 +464,7 @@ class Board:
                     content[r][c] = "LV"
                     locked_pieces[r][c] = "lock"          
             it += 1
-        #completar móldura caso possível, só não faz com os B's e com os L's porque esses estão de certeza locked na móldura
+        #completar caso possível
         while(1):
             flag = False
             it = 0
@@ -646,6 +646,8 @@ class Board:
                             ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))):
                             content[r][c] = "LH"
                             locked_pieces[r][c] = "lock"
+                        else:
+                            flag = True
                     elif piece in ["BC", "BB", "BE", "BD"]:
                         if(((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right))) or 
                             ((locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))):
@@ -703,17 +705,53 @@ class PipeMania(Problem):
                 piece = state.board.get_value(r, c)
                 if piece in ["FC", "FD", "FB", "FE"]:
                     if(r == 0 and c == 0):##canto superior esquerdo
-                        actions.append((r, c, "FB"))
-                        actions.append((r, c, "FD"))
+                        if(state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right)):#tem direita
+                            actions.append((r, c, "FD"))
+                        elif(state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down)):#tem baixo
+                            actions.append((r, c, "FB"))
+                        else:    
+                            actions.append((r, c, "FB"))
+                            actions.append((r, c, "FD"))
                     elif(r == 0 and c == dim - 1): ##canto superior direito
-                        actions.append((r, c, "FB"))
-                        actions.append((r, c, "FE"))
+                        if(state.board.get_value(r, c-1) in Left and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down))):
+                            #não é possível ter esquerda e baixo simultaneamente
+                            pass   
+                        elif(state.board.locked_pieces[r+1][c] == "lock" and state.board.get_value(r+1, c) in Down):#tem baixo
+                            actions.append((r, c, "FB"))                     
+                        elif(state.board.get_value(r, c-1) in Left):#tem esquerda
+                            actions.append((r, c, "FE"))
+                        elif(state.board.get_value(r, c-1) not in Left):#não tem esquerda logo tem que ser baixo
+                            actions.append((r, c, "FB"))
+                        else:
+                            actions.append((r, c, "FB"))
+                            actions.append((r, c, "FE"))
                     elif(r == dim - 1 and c == 0): ##canto inferior esquerdo
-                        actions.append((r, c, "FC"))
-                        actions.append((r, c, "FD"))
+                        if(state.board.get_value(r-1, c) in Up and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right))):
+                            #não é possível ter cima e direita simultaneamente
+                            pass
+                        elif(state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right)):
+                            actions.append((r, c, "FD"))
+                        elif(state.board.get_value(r-1, c) in Up):
+                            actions.append((r, c, "FC"))
+                        elif(state.board.get_value(r-1, c) not in Up):
+                            actions.append((r, c, "FD"))
+                        else:
+                            actions.append((r, c, "FC"))
+                            actions.append((r, c, "FD"))
                     elif(r == dim - 1 and c == dim - 1): ##canto inferior direito
-                        actions.append((r, c, "FC"))
-                        actions.append((r, c, "FE"))
+                        if((state.board.get_value(r-1, c) in Up )and (state.board.get_value(r, c-1) in Left)):
+                            #não é possível ter cima e esquerda simultaneamente
+                            pass
+                        elif((state.board.get_value(r-1, c) not in Up) and (state.board.get_value(r, c-1) not in Left)):
+                            #não é possível ligar
+                            pass
+                        elif(state.board.get_value(r, c-1) in Left):
+                            actions.append((r, c, "FE"))
+                        elif(state.board.get_value(r-1, c) in Up):
+                            actions.append((r, c, "FC"))
+                        else:
+                            actions.append((r, c, "FC"))
+                            actions.append((r, c, "FE"))
                     elif(r == 0): ##Primeira linha
                         actions.append((r, c, "FE"))
                         actions.append((r, c, "FB"))
@@ -854,7 +892,7 @@ class PipeMania(Problem):
                         actions.append((r, c, "LH"))
                         actions.append((r, c, "LV"))                
             else:#devolve a única ação da peça bloqueada que é ela mesma
-                actions.append((r, c, state.board.content[r][c]))
+                actions.append((r, c, state.board.get_value(r, c)))
         return actions
 
 
