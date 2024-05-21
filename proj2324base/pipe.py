@@ -492,7 +492,7 @@ class Board:
                                 content[r][c] = "FE"
                                 locked_pieces[r][c] = "lock"
                             #down
-                            elif((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) (locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left))):
+                            elif((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) or (locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left))):
                                 content[r][c] = "FB"
                                 locked_pieces[r][c] = "lock"
                         elif(r == dim - 1 and c == 0): ##canto inferior esquerdo
