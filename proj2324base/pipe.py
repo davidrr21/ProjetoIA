@@ -515,15 +515,15 @@ class Board:
                                 locked_pieces[r][c] = "lock"
                         elif(r == 0): ##Primeira linha
                             #right
-                            if((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) or ((locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)) and( locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)))):
+                            if((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) or ((locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)) and( locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))):
                                 content[r][c] = "FD"
                                 locked_pieces[r][c] = "lock"
                             #left
-                            elif((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) or ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)) and( locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)))):
+                            elif((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) or ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)) and( locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))):
                                 content[r][c] = "FE"
                                 locked_pieces[r][c] = "lock"
                             #primeira linha
-                            elif(((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) or ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)) and( locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)))) and (r == 0)):
+                            elif((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) or ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)) and( locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)))):
                                 content[r][c] = "FB"
                                 locked_pieces[r][c] = "lock"
                         elif(r == dim - 1):#Última linha
@@ -536,7 +536,7 @@ class Board:
                                 content[r][c] = "FE"
                                 locked_pieces[r][c] = "lock"
                             #última linha
-                            elif(((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) or ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)) and( locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)))) and (r == (dim -1))):
+                            elif((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) or ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)) and( locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)))):
                                 content[r][c] = "FC"
                                 locked_pieces[r][c] = "lock"
                         elif(c == 0): ##Primeira coluna
@@ -545,24 +545,24 @@ class Board:
                                 content[r][c] = "FC"
                                 locked_pieces[r][c] = "lock"
                             #down
-                            elif((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) or ((locked_pieces[r-1][c] == "lock" and (content[r-1][c-1] not in Up)) and( locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)))):
+                            elif((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) or ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)) and( locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)))):
                                 content[r][c] = "FB"
                                 locked_pieces[r][c] = "lock" 
                             #primeira coluna
-                            elif(((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) or ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)) and( locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))) and (c == 0)):
+                            elif((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) or ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)) and( locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))):
                                 content[r][c] = "FD"
-                                locked_pieces[r][c] = "lock" 
+                                locked_pieces[r][c] = "lock"
                         elif(c == dim - 1):#última coluna
                             #up
-                            if((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) or ((locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)) and( locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)))):
+                            if((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) or ((locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)) and( locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)))):
                                 content[r][c] = "FC"
                                 locked_pieces[r][c] = "lock"
                             #down
-                            elif((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) or ((locked_pieces[r-1][c] == "lock" and (content[r-1][c-1] not in Up)) and( locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)))):
+                            elif((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) or ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)) and( locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)))):
                                 content[r][c] = "FB"
                                 locked_pieces[r][c] = "lock"
                             #última coluna
-                            elif(((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) or ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)) and( locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))) and (c == (dim-1))):
+                            elif((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) or ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)) and( locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))):
                                 content[r][c] = "FE"
                                 locked_pieces[r][c] = "lock"
                         else:#caso em que a peça está no meio
@@ -579,7 +579,7 @@ class Board:
                                 content[r][c] = "FE"
                                 locked_pieces[r][c] = "lock"
                             else:
-                                flag = True  
+                                flag = True                
                     elif piece in ["VC", "VD", "VB", "VE"]:
                         if(r == 0): ##Primeira linha
                             #right
@@ -653,28 +653,44 @@ class Board:
                         else:
                             flag = True
                     elif piece in ["BC", "BB", "BE", "BD"]:
-                        #sei 3 lados
-                        if(((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right))) or 
-                            ((locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))):
-                            content[r][c] = "BC"
-                            locked_pieces[r][c] = "lock"
-                        elif(((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right))) or
-                            ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)))):
-                            content[r][c] = "BB"
-                            locked_pieces[r][c] = "lock"
-                        elif(((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down))) or
+                        if(((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r-1][c] == "lock" and(content[r-1][c] in Up))) or
+                            ((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left))) or
+                            ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right))) or
+                            ((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right))) or
+                            ((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right))) or
+                            ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down))) or
                             ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)))):
                             content[r][c] = "BE"
                             locked_pieces[r][c] = "lock"
-                        elif(((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right))) or
+                         
+                        elif(((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r+1][c] == "lock" and(content[r+1][c] in Down))) or
+                            ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) and (locked_pieces[r+1][c] == "lock" and(content[r+1][c] in Down))) or
+                            ((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) and (locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up))) or
+                            ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) and (locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up))) or                        
+                            ((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up))) or
+                            ((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right))) or
+                            ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] not in Up)))):
+                            content[r][c] = "BB"
+                            locked_pieces[r][c] = "lock"
+
+                        elif(((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) and (locked_pieces[r-1][c] == "lock" and(content[r-1][c] in Up))) or
+                            ((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right))) or
+                            ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left))) or
+                            ((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left))) or
+                            ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left))) or
+                            ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right))) or
                             ((locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)))):
                             content[r][c] = "BD"
                             locked_pieces[r][c] = "lock"
-                        #sei 2 lados
-                        elif(((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) and (locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right))) or
-                            ((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right))) or
-                            ((locked_pieces[r+1][c] == "lock" and (content[r+1][c] in Down)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] not in Right)))):
-                            content[r][c] = "BE"
+                        
+                        elif(((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r-1][c] == "lock" and(content[r-1][c] in Up))) or
+                            ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) and (locked_pieces[r-1][c] == "lock" and(content[r-1][c] in Up))) or
+                            ((locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)) and (locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up))) or
+                            ((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down))) or                        
+                            ((locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down))) or
+                            ((locked_pieces[r-1][c] == "lock" and (content[r-1][c] in Up)) and (locked_pieces[r][c-1] == "lock" and (content[r][c-1] in Left)) and (locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right))) or 
+                            ((locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))):
+                            content[r][c] = "BC"
                             locked_pieces[r][c] = "lock"
                         else:
                             flag = True         
