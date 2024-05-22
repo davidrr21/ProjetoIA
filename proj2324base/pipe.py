@@ -514,6 +514,7 @@ class Board:
                                 content[r][c] = "FC"
                                 locked_pieces[r][c] = "lock"
                         elif(r == 0): ##Primeira linha
+                            print("entrou parse de F's primeira linha")
                             #right
                             if((locked_pieces[r][c+1] == "lock" and (content[r][c+1] in Right)) or ((locked_pieces[r][c-1] == "lock" and (content[r][c-1] not in Left)) and( locked_pieces[r+1][c] == "lock" and (content[r+1][c] not in Down)))):
                                 content[r][c] = "FD"
@@ -702,6 +703,9 @@ class Board:
             if(flag):
                 break
         
+        print("\n".join(" ".join(row) for row in locked_pieces))
+        print("\n")
+        print("\n".join(" ".join(row) for row in content))
         return Board(dim, content, locked_pieces)
 
     def print(self):
