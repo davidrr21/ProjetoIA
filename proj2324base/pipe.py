@@ -1142,13 +1142,6 @@ class PipeMania(Problem):
                
             else:#devolve a única ação da peça bloqueada que é ela mesma
                 actions.append((r, c, state.board.get_value(r, c)))
-        
-        state.board.print()
-        for linha in state.board.locked_pieces:
-            print(' '.join(map(str, linha)))
-        print("r: ", r)
-        print("c: ", c)
-        print(actions)
         return actions
 
 
@@ -1201,9 +1194,3 @@ board = Board.parse_instance()
 problem = PipeMania(board)
 goal_node = depth_first_tree_search(problem)
 goal_node.state.board.print()
-#print("Is goal?", problem.goal_test(goal_node.state))
-#print("Solution:\n", goal_node.state.board.print(), sep="")
-
-#FB VC VD
-#BC BB LV
-#FB FB FE
