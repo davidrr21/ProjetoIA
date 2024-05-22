@@ -1179,11 +1179,7 @@ if __name__ == "__main__":
 board = Board.parse_instance()
 problem = PipeMania(board)
 goal_node = depth_first_tree_search(problem)
-<<<<<<< HEAD
-#print(goal_node.state.board.print())
-=======
 goal_node.state.board.print()
->>>>>>> 7edb0de (changes)
 #print("Is goal?", problem.goal_test(goal_node.state))
 #print("Solution:\n", goal_node.state.board.print(), sep="")
 
