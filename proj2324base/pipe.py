@@ -1067,13 +1067,25 @@ class PipeMania(Problem):
                     if(((state.board.get_value(r-1, c) in Up) and (state.board.get_value(r, c-1) in Left) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right)) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down))) or
                     ((state.board.get_value(r-1, c) not in Up) and (state.board.get_value(r, c-1) not in Left) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) not in Right)) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) not in Down)))):
                         pass
-                    elif((state.board.get_value(r-1, c) in Up) and (state.board.get_value(r, c-1) in Left) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right))):#tem pela esquerda, por cima e pela direita
+                    elif(((state.board.get_value(r-1, c) in Up) and (state.board.get_value(r, c-1) in Left) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right))) or
+                        ((state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) not in Down)) and (state.board.get_value(r-1, c) in Up)) or
+                        ((state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right)) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) not in Down))) or                        
+                        ((state.board.get_value(r, c-1) in Left)) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) not in Down))):
                         actions.append((r, c, "BC"))
-                    elif((state.board.get_value(r-1, c) in Up) and (state.board.get_value(r, c-1) in Left) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down))):#tem por cima, pela esquerda e por baixo
+                    elif(((state.board.get_value(r-1, c) in Up) and (state.board.get_value(r, c-1) in Left) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down))) or
+                        ((state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) not in Right)) and (state.board.get_value(r-1, c) in Up)) or
+                        ((state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) not in Right)) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down))) or                        
+                        ((state.board.get_value(r, c-1) in Left) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) not in Right)))):
                         actions.append((r, c, "BE"))
-                    elif((state.board.get_value(r, c-1) in Left) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down)) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right))):#tem pela esquerda, por baixo e pela direita
+                    elif(((state.board.get_value(r, c-1) in Left) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down)) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right))) or
+                        ((state.board.get_value(r-1, c) not in Up) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down))) or
+                        ((state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right)) and (state.board.get_value(r-1, c) not in Up)) or                        
+                        ((state.board.get_value(r-1, c) not in Up) and (state.board.get_value(r, c-1) in Left))):
                         actions.append((r, c, "BB"))
-                    elif((state.board.get_value(r-1, c) in Up) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down)) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right))):#tem por cima, pela direita e por baixo
+                    elif(((state.board.get_value(r-1, c) in Up) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down)) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right))) or
+                        ((state.board.get_value(r, c-1) not in Left) and (state.board.get_value(r-1, c) in Up)) or
+                        ((state.board.get_value(r, c-1) not in Left) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down))) or                        
+                        ((state.board.get_value(r, c-1) not in Left) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right)))):
                         actions.append((r, c, "BD"))
                     elif((state.board.get_value(r-1, c) in Up) and (state.board.get_value(r, c-1) in Left)):#tem pela esquerda e por cima 
                         actions.append((r, c, "BC"))
