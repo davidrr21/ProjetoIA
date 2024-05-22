@@ -973,11 +973,7 @@ class PipeMania(Problem):
                             actions.append((r, c, "FE"))
                             actions.append((r, c, "FD"))
                             actions.append((r, c, "FC"))
-                        #else:
-                        #    actions.append((r, c, "FC"))
-                        #    actions.append((r, c, "FD"))
-                        #    actions.append((r, c, "FB"))
-                        #    actions.append((r, c, "FE"))
+
                 elif piece in ["VC", "VD", "VB", "VE"]:
                     if(r == 0): ##Primeira linha
                         if((state.board.get_value(r, c-1) in Left) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right)) or
@@ -1073,7 +1069,8 @@ class PipeMania(Problem):
                 #considerar inferências para caso a peça esteja no meio
                 elif piece in ["BC", "BD", "BB", "BE"]:
                     if(((state.board.get_value(r-1, c) in Up) and (state.board.get_value(r, c-1) in Left) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right)) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down))) or
-                    ((state.board.get_value(r-1, c) not in Up) and (state.board.get_value(r, c-1) not in Left) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) not in Right)) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) not in Down)))):
+                    ((state.board.get_value(r-1, c) not in Up) and (state.board.get_value(r, c-1) not in Left) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) not in Right)) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) not in Down))) or
+                    ((state.board.get_value(r, c-1) not in Left) and (state.board.get_value(r-1, c) not in Up))):
                         pass
                     elif(((state.board.get_value(r-1, c) in Up) and (state.board.get_value(r, c-1) in Left) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right))) or
                         ((state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) not in Down)) and (state.board.get_value(r-1, c) in Up)) or
@@ -1142,12 +1139,16 @@ class PipeMania(Problem):
                         actions.append((r, c, "LH"))
                     elif(state.board.locked_pieces[r+1][c] == "lock" and state.board.get_value(r+1, c) in Down):
                         actions.append((r, c, "LV"))
-
-                    #else:
-                    #    actions.append((r, c, "LH"))
-                    #    actions.append((r, c, "LV"))                
+               
             else:#devolve a única ação da peça bloqueada que é ela mesma
                 actions.append((r, c, state.board.get_value(r, c)))
+        
+        state.board.print()
+        for linha in state.board.locked_pieces:
+            print(' '.join(map(str, linha)))
+        print("r: ", r)
+        print("c: ", c)
+        print(actions)
         return actions
 
 
