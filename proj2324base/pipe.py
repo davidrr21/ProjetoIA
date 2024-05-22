@@ -1044,7 +1044,7 @@ class PipeMania(Problem):
                              ((state.board.get_value(r, c-1) not in Left) and (state.board.get_value(r-1, c) in Up))):#de cima e da direita
                             actions.append((r, c, "VD"))
                         elif(((state.board.get_value(r, c-1) in Left) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down))) or
-                             ((state.board.get_value(r, c+1) in Left) and (state.board.get_value(r-1, c) not in Up)) or
+                             ((state.board.get_value(r, c-1) in Left) and (state.board.get_value(r-1, c) not in Up)) or
                              ((state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) not in Right)) and (state.board.locked_pieces[r-1][c] == "lock" and (state.board.get_value(r-1, c) not in Up)))):#de esquerda e baixo
                             actions.append((r, c, "VE"))
                         elif(((state.board.get_value(r, c-1) not in Left) and (state.board.get_value(r-1, c) not in Up)) or
