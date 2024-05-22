@@ -761,7 +761,6 @@ class PipeMania(Problem):
         #Listar em tuplos todas as ações possiveis a realizar num tabuleiro de dimensão nxn tendo em conta a posição das peças
         actions = []        
         dim = state.board.dim
-
         if(state.prof < (dim * dim)):
             r = state.prof // dim
             c = state.prof % dim
@@ -1036,12 +1035,22 @@ class PipeMania(Problem):
                             ((state.board.get_value(r-1, c) not in Up) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) not in Down))) or
                             ((state.board.get_value(r, c-1) not in Left) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) not in Right)))):
                             pass
-                        elif((state.board.get_value(r-1, c) in Up) and (state.board.get_value(r, c-1) in Left)):#de cima e da esquerda
+                        elif(((state.board.get_value(r-1, c) in Up) and (state.board.get_value(r, c-1) in Left)) or
+                             ((state.board.get_value(r-1, c) in Up) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) not in Right))) or 
+                             ((state.board.get_value(r, c-1) in Left) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) not in Down)))):#de cima e da esquerda
                             actions.append((r, c, "VC"))
-                        elif((state.board.get_value(r-1, c) in Up) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right))):#de cima e da direita
+                        elif(((state.board.get_value(r-1, c) in Up) and (state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right))) or
+                             ((state.board.get_value(r, c-1) not in Left) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) not in Down))) or
+                             ((state.board.get_value(r, c-1) not in Left) and (state.board.get_value(r-1, c) in Up))):#de cima e da direita
                             actions.append((r, c, "VD"))
-                        elif((state.board.get_value(r, c-1) in Left) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down))):#de esuqerda e baixo
+                        elif(((state.board.get_value(r, c-1) in Left) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down))) or
+                             ((state.board.get_value(r, c+1) in Left) and (state.board.get_value(r-1, c) not in Up)) or
+                             ((state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) not in Right)) and (state.board.locked_pieces[r-1][c] == "lock" and (state.board.get_value(r-1, c) not in Up)))):#de esquerda e baixo
                             actions.append((r, c, "VE"))
+                        elif(((state.board.get_value(r, c-1) not in Left) and (state.board.get_value(r-1, c) not in Up)) or
+                             ((state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right)) and (state.board.get_value(r-1, c) not in Up)) or
+                             ((state.board.get_value(r, c-1) not in Left) and (state.board.locked_pieces[r+1][c] == "lock" and (state.board.get_value(r+1, c) in Down)))):
+                            actions.append((r, c, "VB"))
                         elif(state.board.get_value(r-1, c) in Up):#só de cima
                             actions.append((r, c, "VC"))
                             actions.append((r, c, "VD"))
@@ -1054,7 +1063,6 @@ class PipeMania(Problem):
                         elif(state.board.locked_pieces[r][c+1] == "lock" and (state.board.get_value(r, c+1) in Right)):
                             actions.append((r, c, "VB"))
                             actions.append((r, c, "VD"))
-                        #rever estes 3 elif's em baixo disto
                         elif((state.board.get_value(r-1, c) not in Up) and (state.board.get_value(r, c-1) in Left)):#nem da esquerda nem de cima
                             actions.append((r, c, "VB"))
                         else:
