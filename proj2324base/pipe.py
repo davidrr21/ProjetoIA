@@ -409,7 +409,7 @@ class Board:
             > from sys import stdin
             > line = stdin.readline().split()
         """
-        # 
+        
         
         content = []
         dim = 0
@@ -421,7 +421,6 @@ class Board:
             for word in words:
                 linha.append(word)
             content.append(linha)
-
 
         locked_pieces = [["unlock" for _ in range(dim)] for _ in range(dim)]
         
@@ -1142,6 +1141,7 @@ class PipeMania(Problem):
                
             else:#devolve a única ação da peça bloqueada que é ela mesma
                 actions.append((r, c, state.board.get_value(r, c)))
+        print(actions)
         return actions
 
 
